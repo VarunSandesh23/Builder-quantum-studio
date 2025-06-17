@@ -430,53 +430,55 @@ const Dashboard = () => {
         {/* Admin Controls */}
         {isAdmin && (
           <Card className="mb-6 bg-red-50 border-red-200">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-red-900">
-                <Shield className="w-5 h-5" />
-                Admin Controls
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="flex items-center gap-2 text-red-900 text-base sm:text-lg">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
+                Platform Controls
               </CardTitle>
-              <CardDescription className="text-red-700">
+              <CardDescription className="text-red-700 text-sm">
                 Administrative actions with system-wide impact
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-3">
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setShowCleanupDialog(true)}
-                  className="border-red-300 text-red-700 hover:bg-red-100"
+                  className="border-red-300 text-red-700 hover:bg-red-100 justify-start h-10 text-xs sm:text-sm"
                 >
-                  <Archive className="w-4 h-4 mr-2" />
-                  Remove All Resolved
+                  <Archive className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <span className="truncate">Remove All Resolved</span>
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={exportData}
-                  className="border-blue-300 text-blue-700 hover:bg-blue-100"
+                  className="border-blue-300 text-blue-700 hover:bg-blue-100 justify-start h-10 text-xs sm:text-sm"
                 >
-                  <Download className="w-4 h-4 mr-2" />
-                  Export Data
+                  <Download className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <span className="truncate">Export Data</span>
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => window.location.reload()}
-                  className="border-gray-300 text-gray-700 hover:bg-gray-100"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-100 justify-start h-10 text-xs sm:text-sm"
                 >
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Refresh Data
+                  <RefreshCw className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <span className="truncate">Refresh Data</span>
                 </Button>
                 {selectedComplaints.length > 0 && (
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setBulkDialog(true)}
-                    className="border-purple-300 text-purple-700 hover:bg-purple-100"
+                    className="border-purple-300 text-purple-700 hover:bg-purple-100 justify-start h-10 text-xs sm:text-sm sm:col-span-2 lg:col-span-1"
                   >
-                    <Settings className="w-4 h-4 mr-2" />
-                    Bulk Actions ({selectedComplaints.length})
+                    <Settings className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span className="truncate">
+                      Bulk Actions ({selectedComplaints.length})
+                    </span>
                   </Button>
                 )}
               </div>
