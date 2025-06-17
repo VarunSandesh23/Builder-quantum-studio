@@ -185,6 +185,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("ts-civic-user");
+    // Force redirect to homepage after logout
+    if (typeof window !== "undefined") {
+      window.location.href = "/";
+    }
   };
 
   const updateProfile = (updates: Partial<User>) => {
