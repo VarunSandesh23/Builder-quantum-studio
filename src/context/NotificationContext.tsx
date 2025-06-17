@@ -203,7 +203,10 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       (notification) =>
         notification.userId === userId ||
         notification.userId === "all" ||
-        notification.userRole === userRole,
+        notification.userRole === userRole ||
+        (userRole === "admin" && notification.userId === "all-admins") ||
+        (userRole === "official" && notification.userId === "all-officials") ||
+        (userRole === "admin" && notification.userId === "admin-001"), // Support legacy admin notifications
     );
   };
 
