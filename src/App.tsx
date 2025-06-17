@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { ComplaintProvider } from "./context/ComplaintContext";
 import { NotificationProvider } from "./context/NotificationContext";
+import { LanguageProvider } from "./context/LanguageContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ChatBot from "./components/ChatBot";
 import Index from "./pages/Index";
@@ -21,13 +22,14 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <NotificationProvider>
-        <ComplaintProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
+    <LanguageProvider>
+      <AuthProvider>
+        <NotificationProvider>
+          <ComplaintProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/login" element={<Login />} />
@@ -73,7 +75,7 @@ const App = () => (
         </ComplaintProvider>
       </NotificationProvider>
     </AuthProvider>
-  </QueryClientProvider>
+  </LanguageProvider>
 );
 
 export default App;

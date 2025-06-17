@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useNotifications } from "@/context/NotificationContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -56,7 +57,6 @@ interface NavItem {
 }
 
 const Navigation = () => {
-  const [language, setLanguage] = useState("en");
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -64,6 +64,7 @@ const Navigation = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const { unreadCount } = useNotifications();
+  const { language, setLanguage, t } = useLanguage();
 
   // Handle scroll effect
   useEffect(() => {
@@ -77,40 +78,26 @@ const Navigation = () => {
   const navItems: NavItem[] = [
     {
       href: "/",
-      label: "Home",
-      labelTe: "హోమ్",
-      labelHi: "होम",
+      label: t("home"),
       icon: <Building2 className="w-4 h-4" />,
     },
     {
       href: "/register-complaint",
-      label: "Register",
-      labelTe: "ఫిర్యాదు నమోదు",
-      labelHi: "शिकायत दर्ज करें",
+      label: t("register_complaint"),
       icon: <FileText className="w-4 h-4" />,
     },
     {
       href: "/track-complaint",
-      label: "Track",
-      labelTe: "ట్రాక్ చేయండి",
-      labelHi: "ट्रैक करें",
+      label: t("track_complaint"),
       icon: <Search className="w-4 h-4" />,
     },
     {
       href: "/dashboard",
-      label: "Dashboard",
-      labelTe: "డాష్‌బోర్డ్",
-      labelHi: "डैशबोर्ड",
+      label: t("dashboard"),
       icon: <BarChart3 className="w-4 h-4" />,
       badge: user?.role === "admin" ? 5 : undefined,
     },
   ];
-
-  const getLabel = (item: NavItem) => {
-    if (language === "te" && item.labelTe) return item.labelTe;
-    if (language === "hi" && item.labelHi) return item.labelHi;
-    return item.label;
-  };
 
   const isActiveRoute = (href: string) => {
     return location.pathname === href;
@@ -159,11 +146,7 @@ const Navigation = () => {
                 </span>
                 <span className="text-sm text-gray-600 flex items-center space-x-1">
                   <Sparkles className="w-3 h-3 text-yellow-500" />
-                  <span>
-                    {language === "te" && "పౌర సేవలు"}
-                    {language === "hi" && "नागरिक सेवाएं"}
-                    {language === "en" && "Citizen Services"}
-                  </span>
+                  <span>{t("citizen_services")}</span>
                 </span>
               </div>
             </Link>
@@ -190,7 +173,7 @@ const Navigation = () => {
                     {item.icon}
                   </div>
                   <span className="relative">
-                    {getLabel(item)}
+                    {item.label}
                     {item.badge && (
                       <span className="absolute -top-2 -right-3 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
                         {item.badge}
@@ -330,14 +313,14 @@ const Navigation = () => {
                         className="hover:bg-blue-50 transition-colors duration-200 cursor-pointer p-3"
                       >
                         <User className="mr-3 h-4 w-4" />
-                        <span>Profile & Settings</span>
+                        <span>{t("profile")}</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => navigate("/notifications")}
                         className="hover:bg-blue-50 transition-colors duration-200 cursor-pointer p-3"
                       >
                         <Bell className="mr-3 h-4 w-4" />
-                        <span>Notifications</span>
+                        <span>{t("notifications")}</span>
                         {unreadCount > 0 && (
                           <span className="ml-auto text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
                             {unreadCount > 99 ? "99+" : unreadCount}
@@ -350,7 +333,7 @@ const Navigation = () => {
                         className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors duration-200 cursor-pointer p-3"
                       >
                         <LogOut className="mr-3 h-4 w-4" />
-                        <span>Sign out</span>
+                        <span>{t("logout")}</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -363,7 +346,7 @@ const Navigation = () => {
                     className="hidden xl:flex border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 transition-all duration-300 hover:scale-105"
                   >
                     <LogOut className="w-4 h-4 mr-2" />
-                    Logout
+                    {t("logout")}
                   </Button>
                 </div>
               ) : (
@@ -375,7 +358,7 @@ const Navigation = () => {
                     className="hover:scale-105 transition-all duration-300 hover:shadow-md"
                   >
                     <LogIn className="w-4 h-4 mr-2" />
-                    Sign In
+                    {t("sign_in")}
                   </Button>
                   <Button
                     size="sm"
@@ -383,7 +366,7 @@ const Navigation = () => {
                     className="hidden sm:flex bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:scale-105 transition-all duration-300 hover:shadow-lg"
                   >
                     <UserPlus className="w-4 h-4 mr-2" />
-                    Register
+                    {t("register")}
                   </Button>
                 </div>
               )}
@@ -411,9 +394,7 @@ const Navigation = () => {
                       <span>TS Civic</span>
                     </SheetTitle>
                     <SheetDescription className="text-left">
-                      {language === "te" && "తెలంగాణ పౌర సేవలు"}
-                      {language === "hi" && "तेलंगाना नागरिक सेवाएं"}
-                      {language === "en" && "Telangana Citizen Services"}
+                      {t("citizen_services")}
                     </SheetDescription>
                   </SheetHeader>
 
@@ -432,7 +413,7 @@ const Navigation = () => {
                           }`}
                         >
                           {item.icon}
-                          <span>{getLabel(item)}</span>
+                          <span>{item.label}</span>
                           {item.badge && (
                             <span className="ml-auto w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
                               {item.badge}
@@ -514,7 +495,7 @@ const Navigation = () => {
                               }}
                             >
                               <User className="w-4 h-4 mr-3" />
-                              Profile & Settings
+                              {t("profile")}
                             </Button>
                             <Button
                               variant="outline"
@@ -525,7 +506,7 @@ const Navigation = () => {
                               }}
                             >
                               <Bell className="w-4 h-4 mr-3" />
-                              Notifications
+                              {t("notifications")}
                               {unreadCount > 0 && (
                                 <span className="ml-auto text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
                                   {unreadCount > 99 ? "99+" : unreadCount}
@@ -538,7 +519,7 @@ const Navigation = () => {
                               onClick={handleLogout}
                             >
                               <LogOut className="w-4 h-4 mr-3" />
-                              Sign Out
+                              {t("logout")}
                             </Button>
                           </div>
                         </>

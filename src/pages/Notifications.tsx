@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useNotifications } from "@/context/NotificationContext";
+import { useLanguage } from "@/context/LanguageContext";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,6 +43,7 @@ import {
 const Notifications = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const {
     notifications,
     unreadCount,
@@ -136,11 +138,9 @@ const Notifications = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-              Notifications
+              {t("notifications")}
             </h1>
-            <p className="text-lg text-gray-600">
-              Stay updated with your civic activities and system alerts
-            </p>
+            <p className="text-lg text-gray-600">{t("stay_updated")}</p>
           </div>
           <div className="flex items-center space-x-3 mt-4 sm:mt-0">
             <Button
@@ -165,11 +165,11 @@ const Notifications = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={markAllAsRead}>
                   <Eye className="w-4 h-4 mr-2" />
-                  Mark All as Read
+                  {t("mark_all_read")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={clearAllNotifications}>
                   <Trash2 className="w-4 h-4 mr-2" />
-                  Clear All
+                  {t("clear_all")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -182,7 +182,9 @@ const Notifications = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total</p>
+                  <p className="text-sm font-medium text-gray-600">
+                    {t("total")}
+                  </p>
                   <p className="text-3xl font-bold text-gray-900">
                     {stats.total}
                   </p>
@@ -195,7 +197,9 @@ const Notifications = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Unread</p>
+                  <p className="text-sm font-medium text-gray-600">
+                    {t("unread")}
+                  </p>
                   <p className="text-3xl font-bold text-red-600">
                     {stats.unread}
                   </p>
@@ -208,7 +212,9 @@ const Notifications = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Today</p>
+                  <p className="text-sm font-medium text-gray-600">
+                    {t("today")}
+                  </p>
                   <p className="text-3xl font-bold text-green-600">
                     {stats.today}
                   </p>
@@ -228,13 +234,13 @@ const Notifications = () => {
             >
               <TabsList className="grid w-full grid-cols-3 max-w-md">
                 <TabsTrigger value="all" className="text-sm">
-                  All ({notifications.length})
+                  {t("all")} ({notifications.length})
                 </TabsTrigger>
                 <TabsTrigger value="unread" className="text-sm">
-                  Unread ({stats.unread})
+                  {t("unread")} ({stats.unread})
                 </TabsTrigger>
                 <TabsTrigger value="read" className="text-sm">
-                  Read ({stats.total - stats.unread})
+                  {t("read")} ({stats.total - stats.unread})
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -248,11 +254,11 @@ const Notifications = () => {
               <CardContent className="py-16 text-center">
                 <Bell className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No notifications found
+                  {t("no_notifications_found")}
                 </h3>
                 <p className="text-gray-600 mb-6">
                   {filter === "unread"
-                    ? "You're all caught up! No unread notifications."
+                    ? t("all_caught_up")
                     : filter === "read"
                       ? "No read notifications to display."
                       : "You don't have any notifications yet."}
