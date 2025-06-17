@@ -59,7 +59,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
   // Load notifications from localStorage on mount
   useEffect(() => {
-    const savedNotifications = localStorage.getItem("ts-civic-notifications");
+    const savedNotifications = localStorage.getItem("tg-civic-notifications");
     if (savedNotifications) {
       try {
         const parsed = JSON.parse(savedNotifications);
@@ -76,7 +76,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           title: "New Complaint Received",
           message:
             "A new road damage complaint has been submitted in Hitec City",
-          complaintId: "TSC2024001234",
+          complaintId: "TGC2024001234",
           userId: "admin-001",
           userRole: "admin",
           isRead: false,
@@ -90,7 +90,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           title: "Your Complaint Resolved",
           message:
             "Your water supply issue complaint has been successfully resolved",
-          complaintId: "TSC2024001235",
+          complaintId: "TGC2024001235",
           userId: "citizen-001",
           userRole: "citizen",
           isRead: false,
@@ -112,7 +112,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       ];
       setNotifications(sampleNotifications);
       localStorage.setItem(
-        "ts-civic-notifications",
+        "tg-civic-notifications",
         JSON.stringify(sampleNotifications),
       );
     }
@@ -122,7 +122,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (notifications.length > 0) {
       localStorage.setItem(
-        "ts-civic-notifications",
+        "tg-civic-notifications",
         JSON.stringify(notifications),
       );
     }

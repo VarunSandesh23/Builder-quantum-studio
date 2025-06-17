@@ -84,14 +84,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Load user from localStorage on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem("ts-civic-user");
+    const savedUser = localStorage.getItem("tg-civic-user");
     if (savedUser) {
       try {
         const userData = JSON.parse(savedUser);
         setUser(userData);
       } catch (error) {
         console.error("Error loading user from localStorage:", error);
-        localStorage.removeItem("ts-civic-user");
+        localStorage.removeItem("tg-civic-user");
       }
     }
     setIsLoading(false);
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Save user to localStorage whenever user changes
   useEffect(() => {
     if (user) {
-      localStorage.setItem("ts-civic-user", JSON.stringify(user));
+      localStorage.setItem("tg-civic-user", JSON.stringify(user));
     } else {
       localStorage.removeItem("ts-civic-user");
     }
@@ -184,7 +184,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("ts-civic-user");
+    localStorage.removeItem("tg-civic-user");
     // Force redirect to homepage after logout
     if (typeof window !== "undefined") {
       window.location.href = "/";
