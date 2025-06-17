@@ -183,69 +183,69 @@ const Notifications = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-8">
           <Card className="bg-white/80 backdrop-blur-sm">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">
                     {t("total")}
                   </p>
-                  <p className="text-3xl font-bold text-gray-900">
+                  <p className="text-lg sm:text-3xl font-bold text-gray-900">
                     {stats.total}
                   </p>
                 </div>
-                <Bell className="w-8 h-8 text-blue-600" />
+                <Bell className="w-5 h-5 sm:w-8 sm:h-8 text-blue-600 flex-shrink-0" />
               </div>
             </CardContent>
           </Card>
           <Card className="bg-white/80 backdrop-blur-sm">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">
                     {t("unread")}
                   </p>
-                  <p className="text-3xl font-bold text-red-600">
+                  <p className="text-lg sm:text-3xl font-bold text-red-600">
                     {stats.unread}
                   </p>
                 </div>
-                <AlertTriangle className="w-8 h-8 text-red-600" />
+                <AlertTriangle className="w-5 h-5 sm:w-8 sm:h-8 text-red-600 flex-shrink-0" />
               </div>
             </CardContent>
           </Card>
           <Card className="bg-white/80 backdrop-blur-sm">
-            <CardContent className="p-6">
+            <CardContent className="p-3 sm:p-6">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">
                     {t("today")}
                   </p>
-                  <p className="text-3xl font-bold text-green-600">
+                  <p className="text-lg sm:text-3xl font-bold text-green-600">
                     {stats.today}
                   </p>
                 </div>
-                <Calendar className="w-8 h-8 text-green-600" />
+                <Calendar className="w-5 h-5 sm:w-8 sm:h-8 text-green-600 flex-shrink-0" />
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Filters */}
-        <Card className="mb-6 bg-white/80 backdrop-blur-sm">
-          <CardContent className="p-6">
+        <Card className="mb-4 sm:mb-6 bg-white/80 backdrop-blur-sm">
+          <CardContent className="p-3 sm:p-6">
             <Tabs
               value={filter}
               onValueChange={(value: any) => setFilter(value)}
             >
-              <TabsList className="grid w-full grid-cols-3 max-w-md">
-                <TabsTrigger value="all" className="text-sm">
+              <TabsList className="grid w-full grid-cols-3 h-8 sm:h-10">
+                <TabsTrigger value="all" className="text-xs sm:text-sm px-2">
                   {t("all")} ({notifications.length})
                 </TabsTrigger>
-                <TabsTrigger value="unread" className="text-sm">
+                <TabsTrigger value="unread" className="text-xs sm:text-sm px-2">
                   {t("unread")} ({stats.unread})
                 </TabsTrigger>
-                <TabsTrigger value="read" className="text-sm">
+                <TabsTrigger value="read" className="text-xs sm:text-sm px-2">
                   {t("read")} ({stats.total - stats.unread})
                 </TabsTrigger>
               </TabsList>
