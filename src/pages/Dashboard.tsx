@@ -588,14 +588,14 @@ const Dashboard = () => {
 
         {/* Complaints List */}
         <Card>
-          <CardHeader>
-            <div className="flex justify-between items-center">
+          <CardHeader className="pb-3 sm:pb-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
               <div>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                   Complaints ({filteredComplaints.length})
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-sm">
                   Manage and resolve citizen complaints
                 </CardDescription>
               </div>
@@ -612,105 +612,218 @@ const Dashboard = () => {
               )}
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          <CardContent className="pt-0">
+            <div className="space-y-3 sm:space-y-4">
               {filteredComplaints.map((complaint) => (
                 <div
                   key={complaint.id}
-                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:shadow-sm transition-shadow"
+                  className="border border-gray-200 rounded-lg hover:shadow-sm transition-shadow"
                 >
-                  <div className="flex items-center space-x-4 flex-1">
-                    {isAdmin && (
-                      <Checkbox
-                        checked={selectedComplaints.includes(complaint.id)}
-                        onCheckedChange={(checked) =>
-                          handleComplaintSelect(
-                            complaint.id,
-                            checked as boolean,
-                          )
-                        }
-                      />
-                    )}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="font-mono text-sm text-blue-600 font-medium">
-                          {complaint.id}
-                        </span>
+                  {/* Mobile Layout */}
+                  <div className="block sm:hidden">
+                    <div className="p-3">
+                      {/* Header Row */}
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          {isAdmin && (
+                            <Checkbox
+                              checked={selectedComplaints.includes(
+                                complaint.id,
+                              )}
+                              onCheckedChange={(checked) =>
+                                handleComplaintSelect(
+                                  complaint.id,
+                                  checked as boolean,
+                                )
+                              }
+                            />
+                          )}
+                          <span className="font-mono text-xs text-blue-600 font-medium truncate">
+                            {complaint.id}
+                          </span>
+                        </div>
+                        <div className="flex gap-1 ml-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => viewComplaintDetails(complaint)}
+                            className="h-8 px-2"
+                          >
+                            <Eye className="w-3 h-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="bg-blue-600 hover:bg-blue-700 h-8 px-2"
+                            onClick={() => takeAction(complaint)}
+                          >
+                            <Edit className="w-3 h-3" />
+                          </Button>
+                          {isAdmin && (
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => deleteComplaintHandler(complaint)}
+                              className="h-8 px-2"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Status and Priority */}
+                      <div className="flex flex-wrap gap-1 mb-2">
                         <Badge
                           variant="outline"
-                          className={getPriorityColor(complaint.priority)}
+                          className={`${getPriorityColor(complaint.priority)} text-xs`}
                         >
                           {complaint.priority.toUpperCase()}
                         </Badge>
-                        <Badge className={getStatusColor(complaint.status)}>
+                        <Badge
+                          className={`${getStatusColor(complaint.status)} text-xs`}
+                        >
                           {getStatusIcon(complaint.status)}
                           <span className="ml-1">
                             {getStatusDisplayName(complaint.status)}
                           </span>
                         </Badge>
+                        <Badge variant="secondary" className="text-xs">
+                          {complaint.subcategory}
+                        </Badge>
                       </div>
 
-                      <h3 className="font-semibold text-gray-900 mb-1">
+                      {/* Title */}
+                      <h3 className="font-semibold text-gray-900 mb-2 text-sm leading-tight">
                         {complaint.title}
                       </h3>
 
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                      {/* Details */}
+                      <div className="space-y-1 text-xs text-gray-600">
                         <div className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4" />
-                          {complaint.landmark ||
-                            complaint.location.split(",")[0]}
+                          <MapPin className="w-3 h-3 flex-shrink-0" />
+                          <span className="truncate">
+                            {complaint.landmark ||
+                              complaint.location.split(",")[0]}
+                          </span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <User className="w-4 h-4" />
-                          {complaint.name}
+                          <User className="w-3 h-3 flex-shrink-0" />
+                          <span className="truncate">{complaint.name}</span>
+                          <span className="text-gray-400">•</span>
+                          <Phone className="w-3 h-3 flex-shrink-0" />
+                          <span>{complaint.phone}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Phone className="w-4 h-4" />
-                          {complaint.phone}
+                          <Calendar className="w-3 h-3 flex-shrink-0" />
+                          <span>{formatDate(complaint.createdAt)}</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          {formatDate(complaint.createdAt)}
-                        </div>
-                        <Badge variant="secondary">
-                          {complaint.subcategory}
-                        </Badge>
                         {complaint.assignedTo && (
                           <div className="flex items-center gap-1">
-                            <Building2 className="w-4 h-4" />
-                            {complaint.assignedTo}
+                            <Building2 className="w-3 h-3 flex-shrink-0" />
+                            <span className="truncate">
+                              {complaint.assignedTo}
+                            </span>
                           </div>
                         )}
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => viewComplaintDetails(complaint)}
-                    >
-                      <Eye className="w-4 h-4 mr-1" />
-                      View
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="bg-blue-600 hover:bg-blue-700"
-                      onClick={() => takeAction(complaint)}
-                    >
-                      <Edit className="w-4 h-4 mr-1" />
-                      Action
-                    </Button>
-                    {isAdmin && (
+                  {/* Desktop Layout */}
+                  <div className="hidden sm:flex items-center justify-between p-4">
+                    <div className="flex items-center space-x-4 flex-1">
+                      {isAdmin && (
+                        <Checkbox
+                          checked={selectedComplaints.includes(complaint.id)}
+                          onCheckedChange={(checked) =>
+                            handleComplaintSelect(
+                              complaint.id,
+                              checked as boolean,
+                            )
+                          }
+                        />
+                      )}
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="font-mono text-sm text-blue-600 font-medium">
+                            {complaint.id}
+                          </span>
+                          <Badge
+                            variant="outline"
+                            className={getPriorityColor(complaint.priority)}
+                          >
+                            {complaint.priority.toUpperCase()}
+                          </Badge>
+                          <Badge className={getStatusColor(complaint.status)}>
+                            {getStatusIcon(complaint.status)}
+                            <span className="ml-1">
+                              {getStatusDisplayName(complaint.status)}
+                            </span>
+                          </Badge>
+                        </div>
+
+                        <h3 className="font-semibold text-gray-900 mb-1">
+                          {complaint.title}
+                        </h3>
+
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                          <div className="flex items-center gap-1">
+                            <MapPin className="w-4 h-4" />
+                            {complaint.landmark ||
+                              complaint.location.split(",")[0]}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <User className="w-4 h-4" />
+                            {complaint.name}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Phone className="w-4 h-4" />
+                            {complaint.phone}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Calendar className="w-4 h-4" />
+                            {formatDate(complaint.createdAt)}
+                          </div>
+                          <Badge variant="secondary">
+                            {complaint.subcategory}
+                          </Badge>
+                          {complaint.assignedTo && (
+                            <div className="flex items-center gap-1">
+                              <Building2 className="w-4 h-4" />
+                              {complaint.assignedTo}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
                       <Button
-                        variant="destructive"
+                        variant="outline"
                         size="sm"
-                        onClick={() => deleteComplaintHandler(complaint)}
+                        onClick={() => viewComplaintDetails(complaint)}
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Eye className="w-4 h-4 mr-1" />
+                        View
                       </Button>
-                    )}
+                      <Button
+                        size="sm"
+                        className="bg-blue-600 hover:bg-blue-700"
+                        onClick={() => takeAction(complaint)}
+                      >
+                        <Edit className="w-4 h-4 mr-1" />
+                        Action
+                      </Button>
+                      {isAdmin && (
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => deleteComplaintHandler(complaint)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
