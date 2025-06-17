@@ -133,16 +133,18 @@ const Notifications = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Navigation />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-1 sm:mb-2">
               {t("notifications")}
             </h1>
-            <p className="text-lg text-gray-600">{t("stay_updated")}</p>
+            <p className="text-base sm:text-lg text-gray-600 hidden sm:block">
+              {t("stay_updated")}
+            </p>
           </div>
-          <div className="flex items-center space-x-3 mt-4 sm:mt-0">
+          <div className="flex items-center space-x-2 sm:space-x-3 mt-3 sm:mt-0">
             <Button
               variant="outline"
               size="sm"
@@ -158,7 +160,11 @@ const Notifications = () => {
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 w-8 p-0 sm:w-auto sm:px-3"
+                >
                   <MoreVertical className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
