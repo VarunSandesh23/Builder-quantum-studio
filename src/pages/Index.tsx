@@ -1467,7 +1467,7 @@ const Index = () => {
               >
                 <FileText className="w-6 h-6 mr-3 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
                 Start Your Report
-                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 group-hover:scale-125 transition-transform duration-300" />
+                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 group-hover:scale-125 transition-transform duration-150" />
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 transform translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
               </Button>
             </Link>
@@ -1663,26 +1663,26 @@ const Index = () => {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
         }
-        
+
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }
         }
-        
+
         @keyframes twinkle {
           0%, 100% { opacity: 0; transform: scale(0); }
           50% { opacity: 1; transform: scale(1); }
         }
-        
+
         .animate-gradient {
           background-size: 300% 300%;
           animation: gradient 6s ease infinite;
         }
-        
+
         .animate-float {
           animation: float 3s ease-in-out infinite;
         }
-        
+
         .animate-twinkle {
           animation: twinkle 2s ease-in-out infinite;
         }
