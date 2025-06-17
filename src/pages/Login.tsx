@@ -62,7 +62,7 @@ const Login = () => {
   const demoAccounts = [
     {
       role: "Admin",
-      email: "admin@tscivic.gov.in",
+      email: "admin@tgcivic.gov.in",
       password: "admin123",
       description: "Full access to dashboard and management",
       icon: <Shield className="w-4 h-4" />,
