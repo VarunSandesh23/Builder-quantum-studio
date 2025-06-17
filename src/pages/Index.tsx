@@ -571,12 +571,32 @@ const Index = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Make a Difference?
+              Transform Your Neighborhood Today
             </h2>
-            <p className="text-xl text-white/90 mb-12">
-              Join thousands of citizens making Telangana better, one report at
-              a time.
+            <p className="text-xl text-white/90 mb-8">
+              Your voice matters. Every complaint you file helps build a better
+              Telangana.
             </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
+              <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                <div className="text-2xl font-bold text-white mb-2">
+                  2.3 Days
+                </div>
+                <div className="text-white/80 text-sm">
+                  Average Resolution Time
+                </div>
+              </div>
+              <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                <div className="text-2xl font-bold text-white mb-2">94%</div>
+                <div className="text-white/80 text-sm">
+                  Issues Successfully Resolved
+                </div>
+              </div>
+              <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                <div className="text-2xl font-bold text-white mb-2">24/7</div>
+                <div className="text-white/80 text-sm">Support & Tracking</div>
+              </div>
+            </div>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link to="/register">
                 <Button
