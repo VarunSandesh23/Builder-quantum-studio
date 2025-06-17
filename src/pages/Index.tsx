@@ -37,6 +37,7 @@ import {
   Phone,
   Mail,
   ExternalLink,
+  UserPlus,
 } from "lucide-react";
 
 const Index = () => {
