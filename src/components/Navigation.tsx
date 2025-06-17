@@ -110,7 +110,7 @@ const Navigation = () => {
               <span className="text-xl font-bold text-gray-900">TS Civic</span>
               <span className="text-xs text-gray-600">
                 {language === "te" && "పౌర సేవలు"}
-                {language === "hi" && "नागरिक सेवाएं"}
+                {language === "hi" && "नागरिक स���वाएं"}
                 {language === "en" && "Citizen Services"}
               </span>
             </div>
@@ -158,60 +158,106 @@ const Navigation = () => {
 
             {/* Authentication */}
             {isAuthenticated ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
-                  >
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-blue-600 text-white">
-                        {user?.name.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user?.name}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user?.email}
-                      </p>
-                      <div className="flex items-center gap-1 mt-1">
-                        <div
-                          className={`w-2 h-2 rounded-full ${
+              <div className="flex items-center space-x-3">
+                {/* User Info Display */}
+                <div className="hidden md:flex flex-col text-right">
+                  <span className="text-sm font-medium text-gray-900">
+                    {user?.name}
+                  </span>
+                  <div className="flex items-center justify-end gap-1">
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        user?.role === "admin"
+                          ? "bg-red-500"
+                          : user?.role === "official"
+                            ? "bg-green-500"
+                            : "bg-blue-500"
+                      }`}
+                    />
+                    <span className="text-xs text-gray-600 capitalize">
+                      {user?.role}
+                    </span>
+                  </div>
+                </div>
+
+                {/* User Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative h-10 w-10 rounded-full"
+                    >
+                      <Avatar className="h-10 w-10">
+                        <AvatarFallback
+                          className={`text-white font-semibold ${
                             user?.role === "admin"
-                              ? "bg-red-500"
+                              ? "bg-red-600"
                               : user?.role === "official"
-                                ? "bg-green-500"
-                                : "bg-blue-500"
+                                ? "bg-green-600"
+                                : "bg-blue-600"
                           }`}
-                        />
-                        <span className="text-xs text-muted-foreground capitalize">
-                          {user?.role}
-                        </span>
+                        >
+                          {user?.name.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {user?.name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user?.email}
+                        </p>
+                        <div className="flex items-center gap-1 mt-1">
+                          <div
+                            className={`w-2 h-2 rounded-full ${
+                              user?.role === "admin"
+                                ? "bg-red-500"
+                                : user?.role === "official"
+                                  ? "bg-green-500"
+                                  : "bg-blue-500"
+                            }`}
+                          />
+                          <span className="text-xs text-muted-foreground capitalize">
+                            {user?.role}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/profile")}>
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/settings")}>
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate("/profile")}>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate("/settings")}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={logout}
+                      className="text-red-600 focus:text-red-600 focus:bg-red-50"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Prominent Logout Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={logout}
+                  className="hidden sm:flex border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
             ) : (
               <div className="flex items-center space-x-2">
                 <Button
@@ -271,7 +317,7 @@ const Navigation = () => {
                   <div className="border-t pt-4 mt-4">
                     <Button variant="outline" className="w-full mb-3">
                       <Phone className="w-4 h-4 mr-2" />
-                      {language === "te" && "సంప్రదించండి"}
+                      {language === "te" && "సంప��రదించండి"}
                       {language === "hi" && "संपर्क"}
                       {language === "en" && "Contact"}
                     </Button>
