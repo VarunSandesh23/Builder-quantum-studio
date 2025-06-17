@@ -865,7 +865,7 @@ const Index = () => {
           <div className="text-center">
             {/* Enhanced Title Animation */}
             <div
-              className={`transition-all duration-1500 ${
+              className={`transition-all duration-500 ${
                 textAnimations.heroTitle
                   ? "opacity-100 translate-y-0 scale-100"
                   : "opacity-0 translate-y-20 scale-95"
@@ -914,7 +914,7 @@ const Index = () => {
 
             {/* Enhanced Subtitle Animation */}
             <div
-              className={`transition-all duration-1500 delay-500 ${
+              className={`transition-all duration-500 delay-200 ${
                 textAnimations.heroSubtitle
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-20"
@@ -993,7 +993,7 @@ const Index = () => {
 
             {/* Enhanced Button Animations */}
             <div
-              className={`transition-all duration-1500 delay-1000 ${
+              className={`transition-all duration-500 delay-400 ${
                 textAnimations.heroButtons
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-20"
@@ -1006,7 +1006,7 @@ const Index = () => {
                       <Button
                         size="lg"
                         onClick={createRipple}
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-8 text-xl rounded-full shadow-xl hover:shadow-2xl transition-all duration-500 group relative overflow-hidden transform hover:scale-110 hover:-translate-y-2"
+                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-8 text-xl rounded-full shadow-xl hover:shadow-2xl transition-all duration-200 group relative overflow-hidden transform hover:scale-105 hover:-translate-y-1"
                         style={{ animation: "pulse 3s infinite" }}
                       >
                         {clickRipples.map((ripple) => (
@@ -1021,7 +1021,7 @@ const Index = () => {
                             }}
                           />
                         ))}
-                        <FileText className="w-6 h-6 mr-3 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
+                        <FileText className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform duration-200" />
                         {t("register_complaint")}
                         <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 transform translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
                       </Button>
@@ -1033,7 +1033,7 @@ const Index = () => {
                         onClick={createRipple}
                         className="border-3 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-10 py-8 text-xl rounded-full transition-all duration-500 group relative overflow-hidden transform hover:scale-110 hover:-translate-y-2 hover:shadow-xl"
                       >
-                        <Search className="w-6 h-6 mr-3 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
+                        <Search className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform duration-200" />
                         {t("track_complaint")}
                         <div className="absolute inset-0 bg-blue-100 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                       </Button>
@@ -1072,7 +1072,7 @@ const Index = () => {
 
             {/* Enhanced Trust Indicators */}
             <div
-              className={`transition-all duration-1500 delay-1500 ${
+              className={`transition-all duration-500 delay-600 ${
                 isHeroVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
@@ -1152,7 +1152,7 @@ const Index = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className={`transition-all duration-1000 ${
+                className={`transition-all duration-500 ${
                   sectionVisibility.stats
                     ? `animate-fade-in ${stat.delay}`
                     : "opacity-0 translate-y-20"
@@ -1161,7 +1161,7 @@ const Index = () => {
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <div
-                  className={`p-10 rounded-3xl bg-gradient-to-br ${stat.color} ${stat.hoverColor} text-white relative overflow-hidden group cursor-pointer transition-all duration-500 hover:scale-110 hover:-translate-y-4 border-2 border-transparent hover:border-white/30`}
+                  className={`p-10 rounded-3xl bg-gradient-to-br ${stat.color} ${stat.hoverColor} text-white relative overflow-hidden group cursor-pointer transition-all duration-200 hover:scale-105 hover:-translate-y-2 border-2 border-transparent hover:border-white/30`}
                   onClick={createRipple}
                   style={{
                     boxShadow:
@@ -1282,7 +1282,7 @@ const Index = () => {
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className={`group cursor-pointer transition-all duration-1000 hover:shadow-2xl border-0 bg-gradient-to-br ${feature.gradient} ${feature.hoverGradient} text-white overflow-hidden animate-slide-up hover:scale-105 hover:-translate-y-6 relative backdrop-blur-sm`}
+                className={`group cursor-pointer transition-all duration-300 hover:shadow-2xl border-0 bg-gradient-to-br ${feature.gradient} ${feature.hoverGradient} text-white overflow-hidden animate-slide-up hover:scale-102 hover:-translate-y-2 relative backdrop-blur-sm`}
                 style={{
                   animationDelay: `${index * 300}ms`,
                   transform: sectionVisibility.features
@@ -1467,7 +1467,7 @@ const Index = () => {
               >
                 <FileText className="w-6 h-6 mr-3 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
                 Start Your Report
-                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 group-hover:scale-125 transition-transform duration-150" />
+                <ArrowRight className="w-6 h-6 ml-3" />
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 transform translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
               </Button>
             </Link>
