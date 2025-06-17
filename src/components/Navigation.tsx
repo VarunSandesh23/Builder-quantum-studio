@@ -140,7 +140,7 @@ const Navigation = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                  TS Civic
+                  TG Civic
                 </span>
                 <span className="text-sm text-gray-600 flex items-center space-x-1">
                   <Sparkles className="w-3 h-3 text-yellow-500" />
@@ -389,7 +389,7 @@ const Navigation = () => {
                       <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                         <Building2 className="w-6 h-6 text-white" />
                       </div>
-                      <span>TS Civic</span>
+                      <span>TG Civic</span>
                     </SheetTitle>
                     <SheetDescription className="text-left">
                       {t("citizen_services")}

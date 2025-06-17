@@ -351,7 +351,7 @@ const ChatBot = () => {
               </div>
               <div>
                 <CardTitle className="text-lg font-semibold">
-                  TS Civic AI
+                  TG Civic AI
                 </CardTitle>
                 <p className="text-blue-100 text-sm">{t("ai_online_status")}</p>
               </div>

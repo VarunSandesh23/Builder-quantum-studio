@@ -479,7 +479,7 @@ const Index = () => {
             >
               <h1 className="text-6xl md:text-7xl font-bold mb-8 relative">
                 <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient hover:scale-105 transition-transform duration-300 cursor-default inline-block">
-                  TS Civic
+                  TG Civic
                 </span>
                 <div className="absolute -top-4 -right-4">
                   <Sparkles className="w-8 h-8 text-yellow-400 animate-spin" />
@@ -846,7 +846,7 @@ const Index = () => {
               <ThumbsUp className="inline-block w-8 h-8 ml-2 text-green-500 animate-pulse" />
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto hover:text-gray-800 transition-colors duration-300">
-              Real feedback from citizens who have used TS Civic to resolve
+              Real feedback from citizens who have used TG Civic to resolve
               their issues.
             </p>
           </div>
@@ -967,7 +967,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
               <h3 className="text-2xl font-bold mb-4 hover:text-blue-400 transition-colors duration-300 cursor-default">
-                TS Civic Platform
+                TG Civic Platform
               </h3>
               <p className="text-gray-400 mb-6 max-w-md hover:text-gray-300 transition-colors duration-300">
                 Connecting citizens with their government for a better
@@ -1063,7 +1063,7 @@ const Index = () => {
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 hover:text-gray-300 transition-colors duration-300">
             <p>
-              © 2024 TS Civic Platform. Government of Telangana. All rights
+              © 2024 TG Civic Platform. Government of Telangana. All rights
               reserved.
             </p>
           </div>
