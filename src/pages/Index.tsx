@@ -53,7 +53,10 @@ const Index = () => {
   // Calculate dynamic statistics
   const totalComplaints = complaintStats.total;
   const resolvedComplaints = complaintStats.resolved + complaintStats.closed;
-  const successRate = totalComplaints > 0 ? Math.round((resolvedComplaints / totalComplaints) * 100) : 72;
+  const successRate =
+    totalComplaints > 0
+      ? Math.round((resolvedComplaints / totalComplaints) * 100)
+      : 72;
   const avgResolutionTime = totalComplaints > 0 ? "2.3" : "2.3"; // Could be calculated from actual data
   const activeUsers = Math.floor(totalComplaints * 45); // Estimate based on complaints
 
@@ -107,7 +110,10 @@ const Index = () => {
     },
     {
       icon: <Users className="w-8 h-8" />,
-      number: activeUsers > 1000 ? `${(activeUsers/1000).toFixed(1)}K+` : activeUsers.toString(),
+      number:
+        activeUsers > 1000
+          ? `${(activeUsers / 1000).toFixed(1)}K+`
+          : activeUsers.toString(),
       label: t("active_citizens"),
       sublabel: t("registered_users"),
       color: "from-purple-500 to-purple-600",
@@ -148,12 +154,13 @@ const Index = () => {
 
   // Calculate category-wise complaint counts
   const categoryStats = {
-    roads: complaints.filter(c => c.category === "roads").length,
-    water: complaints.filter(c => c.category === "water").length,
-    sanitation: complaints.filter(c => c.category === "sanitation").length,
-    electricity: complaints.filter(c => c.category === "electricity").length,
-    streetlights: complaints.filter(c => c.category === "street-lights").length,
-    safety: complaints.filter(c => c.category === "safety").length,
+    roads: complaints.filter((c) => c.category === "roads").length,
+    water: complaints.filter((c) => c.category === "water").length,
+    sanitation: complaints.filter((c) => c.category === "sanitation").length,
+    electricity: complaints.filter((c) => c.category === "electricity").length,
+    streetlights: complaints.filter((c) => c.category === "street-lights")
+      .length,
+    safety: complaints.filter((c) => c.category === "safety").length,
   };
 
   const complaintCategories = [
@@ -222,171 +229,157 @@ const Index = () => {
     },
     {
       name: "Mohammed Ali",
-      role: "Teacher",
-      location: "Warangal",
+      role: "Resident",
+      location: "Gachibowli",
       quote:
-        "The multilingual support made it easy to report issues in Telugu. Great initiative!",
+        "Water supply issue resolved in 2 days. Great initiative by the government!",
       rating: 5,
       avatar: "MA",
     },
   ];
 
-  const howItWorks = [
-    {
-      step: "1",
-      icon: <Camera className="w-8 h-8" />,
-      title: "Report Issue",
-      description: "Take a photo, add location, and describe the problem",
-      color: "from-blue-500 to-blue-600",
-    },
-    {
-      step: "2",
-      icon: <Target className="w-8 h-8" />,
-      title: "Get Assigned",
-      description: "System automatically assigns to relevant department",
-      color: "from-purple-500 to-purple-600",
-    },
-    {
-      step: "3",
-      icon: <Clock className="w-8 h-8" />,
-      title: "Track Progress",
-      description: "Receive real-time updates via SMS and email",
-      color: "from-orange-500 to-orange-600",
-    },
-    {
-      step: "4",
-      icon: <CheckCircle className="w-8 h-8" />,
-      title: "Issue Resolved",
-      description: "Get confirmation when the issue is completed",
-      color: "from-green-500 to-green-600",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-white">
       <Navigation />
 
-      {/* Hero Section with Animated Background */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20" />
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
-          <div className="absolute top-40 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
-          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
-        </div>
+      {/* Animated Background Blobs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-20 -left-20 w-80 h-80 bg-blue-200/30 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-purple-200/30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-20 left-20 w-80 h-80 bg-pink-200/30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
+      </div>
 
-        <div className="relative max-w-7xl mx-auto">
+      {/* Hero Section */}
+      <section className="relative pt-20 pb-32 overflow-hidden">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className="text-center">
-            <div className="flex justify-center mb-6">
-              <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 text-sm font-medium">
-                <Sparkles className="w-4 h-4 mr-2" />
-                Empowering 1.2M+ Citizens
-              </Badge>
-            </div>
-
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent">
-                {t("transform_your_city")}
+            <h1 className="text-6xl md:text-7xl font-bold mb-8">
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient">
+                TS Civic
               </span>
               <br />
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                {t("one_report_at_time")}
-              </span>
+              <span className="text-gray-900">Platform</span>
             </h1>
-
-            <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              {t("join_digital_revolution")}
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+              Empowering citizens of Telangana to report civic issues seamlessly
+              with AI-powered assistance, real-time tracking, and multilingual
+              support.
             </p>
 
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
-              <Button
-                asChild
-                size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                <Link to="/register-complaint">
-                  <FileText className="w-6 h-6 mr-3" />
-                  {t("report_an_issue")}
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-2 border-gray-300 hover:border-blue-500 px-8 py-6 text-lg font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
-              >
-                <Link to="/track-complaint">
-                  <Search className="w-6 h-6 mr-3" />
-                  {t("track_progress")}
-                </Link>
-              </Button>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+              {isAuthenticated ? (
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link to="/register-complaint">
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+                    >
+                      <FileText className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                      {t("register_complaint")}
+                    </Button>
+                  </Link>
+                  <Link to="/track-complaint">
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-6 text-lg rounded-full transition-all duration-300 group"
+                    >
+                      <Search className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                      {t("track_complaint")}
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link to="/login">
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+                    >
+                      <FileText className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                      Get Started
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-6 text-lg rounded-full transition-all duration-300 group"
+                    onClick={() => {
+                      document
+                        .getElementById("features")
+                        ?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                  >
+                    <PlayCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                    Learn More
+                  </Button>
+                </div>
+              )}
             </div>
 
-            {/* Quick Complaint Categories */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-5xl mx-auto">
-              {complaintCategories.map((category, index) => (
-                <div
-                  key={index}
-                  className={`group bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 hover:border-transparent ${category.hoverColor} hover:text-white transform hover:scale-105`}
-                  onMouseEnter={() => setHoveredCard(index)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                >
-                  <div
-                    className={`w-12 h-12 ${category.color} rounded-xl flex items-center justify-center mx-auto mb-3 transition-all duration-300 ${hoveredCard === index ? "bg-white/20" : ""}`}
-                  >
-                    <div
-                      className={`transition-colors duration-300 ${hoveredCard === index ? "text-white" : "text-white"}`}
-                    >
-                      {category.icon}
-                    </div>
-                  </div>
-                  <p className="text-sm font-semibold text-center mb-1 transition-colors duration-300">
-                    {category.label}
-                  </p>
-                  <p className="text-xs text-center opacity-80">
-                    {category.count} reports
-                  </p>
-                </div>
-              ))}
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center items-center gap-8 text-gray-500">
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-green-500" />
+                <span>Secure Platform</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Award className="w-5 h-5 text-blue-500" />
+                <span>Government Certified</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-5 h-5 text-orange-500" />
+                <span>24/7 Support</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section with Animations */}
-      <section
-        id="stats-section"
-        className="py-16 bg-white/50 backdrop-blur-sm"
-      >
+      {/* Stats Section */}
+      <section id="stats-section" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Impact by the Numbers
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Real-time statistics showing our platform's effectiveness in
+              addressing civic issues across Telangana.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className={`text-center transform transition-all duration-700 ${
-                  visibleStats
-                    ? `translate-y-0 opacity-100 ${stat.delay}`
-                    : "translate-y-10 opacity-0"
+                className={`transition-all duration-500 ${
+                  visibleStats ? `animate-fade-in ${stat.delay}` : "opacity-0"
                 }`}
               >
-                <div className="relative mb-6">
-                  <div
-                    className={`w-20 h-20 bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center mx-auto shadow-lg`}
-                  >
-                    <div className="text-white">{stat.icon}</div>
+                <div
+                  className={`p-8 rounded-2xl bg-gradient-to-br ${stat.color} text-white relative overflow-hidden group hover:scale-105 transition-all duration-300`}
+                >
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      {stat.icon}
+                      <div className="flex items-center space-x-1">
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <span className="text-xs text-white/70">Live</span>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="text-3xl font-bold">{stat.number}</div>
+                      <div className="text-white/90 font-medium">
+                        {stat.label}
+                      </div>
+                      <div className="text-white/70 text-sm">
+                        {stat.sublabel}
+                      </div>
+                    </div>
                   </div>
-                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
-                    <TrendingUp className="w-3 h-3 text-yellow-800" />
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
-                <div className="text-4xl font-bold text-gray-900 mb-2 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                  {stat.number}
-                </div>
-                <div className="text-lg font-semibold text-gray-700 mb-1">
-                  {stat.label}
-                </div>
-                <div className="text-sm text-gray-500">{stat.sublabel}</div>
               </div>
             ))}
           </div>
@@ -394,53 +387,58 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+      <section id="features" className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium mb-4">
-              Platform Features
-            </Badge>
+          <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Everything You Need for
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {" "}
-                Civic Engagement
-              </span>
+              Powerful Features
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our comprehensive platform bridges the gap between citizens and
-              government with cutting-edge technology
+              Advanced technology meets citizen needs to create a seamless civic
+              engagement experience.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className="group border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 bg-white/80 backdrop-blur-sm"
+                className={`group cursor-pointer transition-all duration-500 hover:shadow-2xl border-0 bg-gradient-to-br ${feature.gradient} text-white overflow-hidden animate-slide-up`}
+                style={{ animationDelay: `${index * 200}ms` }}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
               >
-                <CardHeader className="text-center pb-4">
-                  <div
-                    className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <div className="text-white">{feature.icon}</div>
+                <CardHeader className="relative pb-4">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="p-3 bg-white/20 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                      {feature.icon}
+                    </div>
+                    <CardTitle className="text-2xl font-bold">
+                      {feature.title}
+                    </CardTitle>
                   </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                    {feature.title}
-                  </CardTitle>
+                  <div className="absolute top-4 right-4">
+                    <Sparkles
+                      className={`w-6 h-6 transition-all duration-300 ${
+                        hoveredCard === index
+                          ? "rotate-12 scale-125"
+                          : "rotate-0 scale-100"
+                      }`}
+                    />
+                  </div>
                 </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-gray-600 mb-4 leading-relaxed">
+                <CardContent>
+                  <p className="text-white/90 text-lg mb-6 leading-relaxed">
                     {feature.description}
                   </p>
                   <div className="space-y-2">
-                    {feature.benefits.map((benefit, idx) => (
+                    {feature.benefits.map((benefit, benefitIndex) => (
                       <div
-                        key={idx}
-                        className="flex items-center justify-center text-sm text-gray-700"
+                        key={benefitIndex}
+                        className="flex items-center space-x-2"
                       >
-                        <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                        {benefit}
+                        <CheckCircle className="w-5 h-5 text-white/80" />
+                        <span className="text-white/80">{benefit}</span>
                       </div>
                     ))}
                   </div>
@@ -451,115 +449,112 @@ const Index = () => {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-20 bg-white">
+      {/* Complaint Categories */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <Badge className="bg-green-100 text-green-800 px-4 py-2 text-sm font-medium mb-4">
-              Simple Process
-            </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              How TS Civic Works
+              Report Any Issue
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From reporting to resolution in just four simple steps
+              From roads to water supply, we handle all types of civic
+              complaints with dedicated teams for each category.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {howItWorks.map((step, index) => (
-              <div key={index} className="text-center group">
-                <div className="relative mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {complaintCategories.map((category, index) => (
+              <Card
+                key={index}
+                className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-blue-500 animate-scale-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <CardContent className="p-6 text-center">
                   <div
-                    className={`w-20 h-20 bg-gradient-to-br ${step.color} rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                    className={`w-16 h-16 ${category.color} ${category.hoverColor} rounded-2xl flex items-center justify-center text-white mx-auto mb-4 group-hover:scale-110 transition-all duration-300`}
                   >
-                    <div className="text-white">{step.icon}</div>
+                    {category.icon}
                   </div>
-                  <div className="absolute -top-3 -right-3 w-8 h-8 bg-gray-900 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                    {step.step}
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    {category.label}
+                  </h3>
+                  <div className="text-2xl font-bold text-blue-600 mb-1">
+                    {category.count}
                   </div>
-                  {index < howItWorks.length - 1 && (
-                    <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-gray-300 to-transparent" />
-                  )}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
-                  {step.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {step.description}
-                </p>
-              </div>
+                  <p className="text-sm text-gray-500">reports filed</p>
+                </CardContent>
+              </Card>
             ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/register-complaint">
+              <Button
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                <FileText className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                Start Your Report
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Testimonials */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <Badge className="bg-yellow-100 text-yellow-800 px-4 py-2 text-sm font-medium mb-4">
-              <Star className="w-4 h-4 mr-2" />
-              Citizen Reviews
-            </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               What Citizens Say
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Real feedback from real people making a difference in their
-              communities
+              Real feedback from citizens who have used TS Civic to resolve
+              their issues.
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-sm">
-              <CardContent className="p-12">
-                <div className="text-center">
-                  <div className="flex justify-center mb-6">
-                    {[...Array(testimonials[currentTestimonial].rating)].map(
-                      (_, i) => (
-                        <Star
-                          key={i}
-                          className="w-6 h-6 text-yellow-400 fill-current"
-                        />
-                      ),
-                    )}
+            <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-0 shadow-xl">
+              <CardContent className="p-12 text-center">
+                <div className="flex justify-center mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-6 h-6 text-yellow-400 fill-current"
+                    />
+                  ))}
+                </div>
+                <blockquote className="text-2xl md:text-3xl font-medium text-gray-900 mb-8 leading-relaxed">
+                  "{testimonials[currentTestimonial].quote}"
+                </blockquote>
+                <div className="flex items-center justify-center space-x-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    {testimonials[currentTestimonial].avatar}
                   </div>
-                  <blockquote className="text-2xl md:text-3xl font-medium text-gray-900 mb-8 leading-relaxed">
-                    "{testimonials[currentTestimonial].quote}"
-                  </blockquote>
-                  <div className="flex items-center justify-center space-x-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                      {testimonials[currentTestimonial].avatar}
+                  <div className="text-left">
+                    <div className="font-semibold text-gray-900 text-lg">
+                      {testimonials[currentTestimonial].name}
                     </div>
-                      className={`transition-all duration-500 ${
-                        visibleStats ? `animate-fade-in ${stat.delay}` : "opacity-0"
-                      }`}
-                    >
-                      <div
-                        className={`p-8 rounded-2xl bg-gradient-to-br ${stat.color} text-white relative overflow-hidden group hover:scale-105 transition-all duration-300`}
-                      >
-                        <div className="relative z-10">
-                          <div className="flex items-center justify-between mb-4">
-                            {stat.icon}
-                            <div className="flex items-center space-x-1">
-                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                              <span className="text-xs text-white/70">Live</span>
-                            </div>
-                          </div>
-                          <div className="space-y-1">
-                            <div className="text-3xl font-bold">{stat.number}</div>
-                            <div className="text-white/90 font-medium">
-                              {stat.label}
-                            </div>
-                            <div className="text-white/70 text-sm">
-                              {stat.sublabel}
-                            </div>
-                          </div>
-                        </div>
+                    <div className="text-gray-600">
+                      {testimonials[currentTestimonial].role} •{" "}
+                      {testimonials[currentTestimonial].location}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Testimonial Navigation */}
+            <div className="flex justify-center space-x-3 mt-8">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  className={`h-3 rounded-full transition-all duration-300 ${
                     index === currentTestimonial
                       ? "bg-blue-600 w-8"
-                      : "bg-gray-300"
+                      : "bg-gray-300 w-3"
                   }`}
                   onClick={() => setCurrentTestimonial(index)}
                 />
@@ -577,33 +572,32 @@ const Index = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to Make a Difference?
             </h2>
-            <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-              Join thousands of citizens who are actively improving their
-              communities. Your voice matters, and your reports create real
-              change.
+            <p className="text-xl text-white/90 mb-12">
+              Join thousands of citizens making Telangana better, one report at
+              a time.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link to="/register">
+                <Button
+                  size="lg"
+                  className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+                >
+                  <UserPlus className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                  Create Account
+                </Button>
+              </Link>
               <Button
-                asChild
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                <Link to="/register-complaint">
-                  <Smartphone className="w-6 h-6 mr-3" />
-                  Start Reporting Now
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-6 text-lg font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
+                size="lg"
+                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-full transition-all duration-300 group"
+                onClick={() => {
+                  document
+                    .getElementById("features")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
-                <Link to="/dashboard">
-                  <Award className="w-6 h-6 mr-3" />
-                  View Public Dashboard
-                </Link>
+                <ExternalLink className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                Watch Demo
               </Button>
             </div>
           </div>
@@ -613,108 +607,101 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <Building2 className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold">TS Civic</div>
-                  <div className="text-gray-400">Government of Telangana</div>
-                </div>
-              </div>
-              <p className="text-gray-300 mb-6 leading-relaxed max-w-md">
-                Empowering citizens and enhancing governance through digital
-                innovation. Building stronger communities, one report at a time.
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="md:col-span-2">
+              <h3 className="text-2xl font-bold mb-4">TS Civic Platform</h3>
+              <p className="text-gray-400 mb-6 max-w-md">
+                Connecting citizens with their government for a better
+                Telangana. Report issues, track progress, and make your voice
+                heard.
               </p>
-              <div className="flex flex-wrap gap-3">
-                <Badge className="bg-blue-600 text-white">24/7 Support</Badge>
-                <Badge className="bg-green-600 text-white">
-                  Real-time Updates
-                </Badge>
-                <Badge className="bg-purple-600 text-white">AI Powered</Badge>
-                <Badge className="bg-orange-600 text-white">Multilingual</Badge>
+              <div className="flex space-x-4">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-400 hover:text-white"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-400 hover:text-white"
+                >
+                  <Phone className="w-5 h-5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-400 hover:text-white"
+                >
+                  <Mail className="w-5 h-5" />
+                </Button>
               </div>
             </div>
-
             <div>
-              <h3 className="font-bold text-lg mb-6 text-white">Quick Links</h3>
-              <ul className="space-y-3">
-                {[
-                  { label: "Register Complaint", href: "/register-complaint" },
-                  { label: "Track Status", href: "/track-complaint" },
-                  { label: "Dashboard", href: "/dashboard" },
-                  { label: "Help Center", href: "/help" },
-                ].map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      to={link.href}
-                      className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group"
-                    >
-                      <ArrowRight className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300" />
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+              <h4 className="font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <Link
+                    to="/register-complaint"
+                    className="hover:text-white transition-colors"
+                  >
+                    Register Complaint
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/track-complaint"
+                    className="hover:text-white transition-colors"
+                  >
+                    Track Status
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    className="hover:text-white transition-colors"
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/register"
+                    className="hover:text-white transition-colors"
+                  >
+                    Sign Up
+                  </Link>
+                </li>
               </ul>
             </div>
-
             <div>
-              <h3 className="font-bold text-lg mb-6 text-white">
-                Contact & Support
-              </h3>
-              <ul className="space-y-4">
-                <li className="flex items-center text-gray-300">
-                  <Phone className="w-5 h-5 mr-3 text-blue-400" />
-                  <div>
-                    <div className="font-semibold">Helpline</div>
-                    <div>1800-XXX-XXXX</div>
-                  </div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li className="flex items-center">
+                  <Phone className="w-4 h-4 mr-2" />
+                  1800-XXX-XXXX
                 </li>
-                <li className="flex items-center text-gray-300">
-                  <Mail className="w-5 h-5 mr-3 text-blue-400" />
-                  <div>
-                    <div className="font-semibold">Email</div>
-                    <div>support@tscivic.gov.in</div>
-                  </div>
+                <li className="flex items-center">
+                  <Mail className="w-4 h-4 mr-2" />
+                  support@tscivic.gov.in
                 </li>
-                <li className="flex items-center text-gray-300">
-                  <Clock className="w-5 h-5 mr-3 text-blue-400" />
-                  <div>
-                    <div className="font-semibold">Office Hours</div>
-                    <div>24/7 Digital Support</div>
-                  </div>
+                <li className="flex items-center">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Hyderabad, Telangana
+                </li>
+                <li className="flex items-center">
+                  <Clock className="w-4 h-4 mr-2" />
+                  24/7 Available
                 </li>
               </ul>
             </div>
           </div>
-
-          <div className="border-t border-gray-800 pt-8 text-center">
-            <p className="text-gray-400">
-              &copy; 2024 TS Civic - Government of Telangana. All rights
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <p>
+              © 2024 TS Civic Platform. Government of Telangana. All rights
               reserved.
-              <span className="mx-2">|</span>
-              <Link
-                to="/privacy"
-                className="hover:text-white transition-colors duration-300"
-              >
-                Privacy Policy
-              </Link>
-              <span className="mx-2">|</span>
-              <Link
-                to="/terms"
-                className="hover:text-white transition-colors duration-300"
-              >
-                Terms of Service
-              </Link>
-              <span className="mx-2">|</span>
-              <Link
-                to="/accessibility"
-                className="hover:text-white transition-colors duration-300"
-              >
-                Accessibility
-              </Link>
             </p>
           </div>
         </div>
