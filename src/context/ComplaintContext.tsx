@@ -42,6 +42,7 @@ interface ComplaintContextType {
     >,
   ) => string;
   updateComplaint: (id: string, updates: Partial<Complaint>) => void;
+  deleteComplaint: (id: string) => boolean;
   getComplaintById: (id: string) => Complaint | undefined;
   getComplaintsByPhone: (phone: string) => Complaint[];
   updateComplaintStatus: (
@@ -50,6 +51,13 @@ interface ComplaintContextType {
     notes: string,
     updatedBy: string,
   ) => void;
+  bulkUpdateStatus: (
+    ids: string[],
+    status: Complaint["status"],
+    notes: string,
+    updatedBy: string,
+  ) => void;
+  deleteResolvedComplaints: () => number;
   getComplaintStats: () => {
     total: number;
     pending: number;
@@ -58,6 +66,8 @@ interface ComplaintContextType {
     resolved: number;
     closed: number;
   };
+  getComplaintsByDateRange: (startDate: string, endDate: string) => Complaint[];
+  getComplaintsByCategory: (category: string) => Complaint[];
 }
 
 const ComplaintContext = createContext<ComplaintContextType | undefined>(
@@ -233,6 +243,70 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  const deleteComplaint = (id: string): boolean => {
+    const complaintExists = complaints.some((complaint) => complaint.id === id);
+    if (complaintExists) {
+      setComplaints((prev) => prev.filter((complaint) => complaint.id !== id));
+      return true;
+    }
+    return false;
+  };
+
+  const bulkUpdateStatus = (
+    ids: string[],
+    status: Complaint["status"],
+    notes: string,
+    updatedBy: string,
+  ) => {
+    const timestamp = new Date().toISOString();
+    setComplaints((prev) =>
+      prev.map((complaint) =>
+        ids.includes(complaint.id)
+          ? {
+              ...complaint,
+              status,
+              updatedAt: timestamp,
+              history: [
+                ...complaint.history,
+                {
+                  timestamp,
+                  status,
+                  notes,
+                  updatedBy,
+                },
+              ],
+            }
+          : complaint,
+      ),
+    );
+  };
+
+  const deleteResolvedComplaints = (): number => {
+    const resolvedCount = complaints.filter(
+      (complaint) => complaint.status === "resolved",
+    ).length;
+    setComplaints((prev) =>
+      prev.filter((complaint) => complaint.status !== "resolved"),
+    );
+    return resolvedCount;
+  };
+
+  const getComplaintsByDateRange = (
+    startDate: string,
+    endDate: string,
+  ): Complaint[] => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return complaints.filter((complaint) => {
+      const createdDate = new Date(complaint.createdAt);
+      return createdDate >= start && createdDate <= end;
+    });
+  };
+
+  const getComplaintsByCategory = (category: string): Complaint[] => {
+    return complaints.filter((complaint) => complaint.category === category);
+  };
+
   const updateComplaintStatus = (
     id: string,
     status: Complaint["status"],
@@ -309,10 +383,15 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
     complaints,
     addComplaint,
     updateComplaint,
+    deleteComplaint,
     getComplaintById,
     getComplaintsByPhone,
     updateComplaintStatus,
+    bulkUpdateStatus,
+    deleteResolvedComplaints,
     getComplaintStats,
+    getComplaintsByDateRange,
+    getComplaintsByCategory,
   };
 
   return (
