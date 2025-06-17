@@ -336,30 +336,39 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-white" />
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-14 sm:h-16">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
+                <BarChart3 className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </div>
-              <div>
-                <span className="text-xl font-bold text-gray-900">
+              <div className="min-w-0">
+                <span className="text-lg sm:text-xl font-bold text-gray-900 block">
                   TG Civic
                 </span>
-                <span className="text-xs text-gray-600 ml-2">
+                <span className="text-xs text-gray-600 hidden sm:block">
                   {isAdmin ? "Admin Dashboard" : "Official Dashboard"}
                 </span>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2">
               {isAdmin && (
-                <Badge variant="secondary" className="bg-red-100 text-red-800">
+                <Badge
+                  variant="secondary"
+                  className="bg-red-100 text-red-800 hidden sm:flex"
+                >
                   <Shield className="w-3 h-3 mr-1" />
                   Administrator
                 </Badge>
               )}
-              <Button variant="outline" onClick={() => navigate("/")}>
-                Back to Home
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/")}
+                className="text-xs sm:text-sm px-2 sm:px-4"
+              >
+                <span className="hidden sm:inline">Back to Home</span>
+                <span className="sm:hidden">Home</span>
               </Button>
             </div>
           </div>
