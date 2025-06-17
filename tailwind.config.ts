@@ -62,7 +62,7 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // TS Civic brand colors
+        // TG Civic brand colors
         civic: {
           50: "#f0f9ff",
           100: "#e0f2fe",

@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     {
       id: "admin-001",
       name: "Admin User",
-      email: "admin@tscivic.gov.in",
+      email: "admin@tgcivic.gov.in",
       phone: "9876543210",
       role: "admin" as const,
       department: "IT Department",
