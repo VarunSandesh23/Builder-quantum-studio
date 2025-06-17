@@ -34,11 +34,11 @@ interface FAQItem {
 }
 
 const ChatBot = () => {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [language, setLanguage] = useState("en");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const faqData: FAQItem[] = [
@@ -105,16 +105,16 @@ const ChatBot = () => {
   ];
 
   const quickStartOptions = [
-    "How to register complaint?",
-    "Track my complaint",
-    "What documents needed?",
-    "How long to resolve?",
-    "Contact support",
+    t("ai_quick_register"),
+    t("ai_quick_track"),
+    t("ai_quick_documents"),
+    t("ai_quick_time"),
+    t("ai_quick_support"),
   ];
 
   const greetingMessage: Message = {
     id: "greeting",
-    text: "Hello! I'm your TS Civic AI assistant. I can help you with complaint registration, tracking, and answer your questions. How can I assist you today?",
+    text: t("ai_greeting"),
     sender: "bot",
     timestamp: new Date(),
     quickReplies: quickStartOptions,
@@ -156,65 +156,101 @@ const ChatBot = () => {
       return keywordMatches[0].answer;
     }
 
-    // Intent recognition
+    // Intent recognition with translated responses
     if (
       input.includes("register") ||
       input.includes("submit") ||
-      input.includes("file")
+      input.includes("file") ||
+      input.includes("दर्ज") ||
+      input.includes("नमोदु") ||
+      input.includes("शिकायत") ||
+      input.includes("ఫిర్యాదు")
     ) {
-      return "To register a complaint: 1) Click 'Register Complaint' in the navigation, 2) Select your issue category (roads, water, etc.), 3) Fill in all details including photos and location, 4) Submit to get your tracking ID. Would you like me to guide you through a specific step?";
+      return t("ai_register_help");
     }
 
     if (
       input.includes("track") ||
       input.includes("status") ||
-      input.includes("check")
+      input.includes("check") ||
+      input.includes("ट्रैक") ||
+      input.includes("ట్రాక్") ||
+      input.includes("स्थिति") ||
+      input.includes("స్థితి")
     ) {
-      return "To track your complaint: 1) Go to 'Track Complaint' page, 2) Enter your complaint ID (format: TSC2024XXXXXX) or phone number, 3) View complete status history and details. Do you have your complaint ID?";
+      return t("ai_track_help");
     }
 
     if (
       input.includes("time") ||
       input.includes("long") ||
-      input.includes("when")
+      input.includes("when") ||
+      input.includes("समय") ||
+      input.includes("సమయం") ||
+      input.includes("कितना") ||
+      input.includes("ఎంత")
     ) {
-      return "Resolution times vary by issue type: Roads (3-7 days), Water (2-5 days), Street lights (1-2 days), Sanitation (1-3 days). You'll receive SMS/email updates throughout the process. Is there a specific type of issue you're asking about?";
+      return t("ai_time_help");
     }
 
     if (
       input.includes("photo") ||
       input.includes("image") ||
-      input.includes("picture")
+      input.includes("picture") ||
+      input.includes("फोटो") ||
+      input.includes("ఫోటో") ||
+      input.includes("तस्वीर") ||
+      input.includes("చిత్రం")
     ) {
-      return "You can upload up to 5 photos during complaint registration. Photos help officials understand the problem better. Supported formats: JPG, PNG, WebP. Click the camera icon or drag photos to the upload area.";
+      return t("ai_photo_help");
     }
 
     if (
       input.includes("location") ||
       input.includes("address") ||
-      input.includes("gps")
+      input.includes("gps") ||
+      input.includes("स्थान") ||
+      input.includes("లొకేషన్") ||
+      input.includes("पता") ||
+      input.includes("చిరునామా")
     ) {
-      return "For location: 1) Use 'My Location' button for automatic GPS detection, 2) Or manually enter your address, 3) Add nearby landmarks for better identification. Accurate location helps officials reach the right spot quickly.";
+      return t("ai_location_help");
     }
 
     if (
       input.includes("contact") ||
       input.includes("help") ||
-      input.includes("support")
+      input.includes("support") ||
+      input.includes("संपर्क") ||
+      input.includes("సంప్రదించు") ||
+      input.includes("सहायता") ||
+      input.includes("సహాయం")
     ) {
-      return "You can contact support: 📞 Helpline: 1800-XXX-XXXX (24/7), 📧 Email: support@tscivic.gov.in, 🏢 Visit your local municipal office, or continue chatting with me for immediate help!";
+      return t("ai_contact_help");
     }
 
-    if (input.includes("thank") || input.includes("thanks")) {
-      return "You're welcome! I'm here to help with any questions about TS Civic. Feel free to ask about complaint registration, tracking, or any other civic services. Is there anything else you'd like to know?";
+    if (
+      input.includes("thank") ||
+      input.includes("thanks") ||
+      input.includes("धन्यवाद") ||
+      input.includes("ధన్యవాదాలు")
+    ) {
+      return t("ai_thanks");
     }
 
-    if (input.includes("emergency") || input.includes("urgent")) {
-      return "For emergencies: 🚨 Call 100 (Police), 🚒 Call 101 (Fire), 🚑 Call 108 (Ambulance). For urgent civic issues, register a complaint and mark it as 'High Priority'. Emergency complaints are processed immediately.";
+    if (
+      input.includes("emergency") ||
+      input.includes("urgent") ||
+      input.includes("आपातकाल") ||
+      input.includes("అత్యవసర") ||
+      input.includes("तत्काल") ||
+      input.includes("తక్షణ")
+    ) {
+      return t("ai_emergency");
     }
 
     // Default response
-    return "I'd be happy to help! I can assist you with: 1) Registering complaints, 2) Tracking complaint status, 3) Understanding the resolution process, 4) Technical support. Could you please be more specific about what you need help with?";
+    return t("ai_default");
   };
 
   const simulateTyping = (callback: () => void, delay: number = 1000) => {
