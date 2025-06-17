@@ -140,7 +140,7 @@ const Register = () => {
           </div>
           <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
           <p className="text-gray-600 mt-2">
-            Join TS Civic to register and track complaints
+            Join TG Civic to register and track complaints
           </p>
         </div>
 
@@ -397,7 +397,7 @@ const Register = () => {
 
         {/* Footer */}
         <div className="text-center text-sm text-gray-600">
-          <p>© 2024 TS Civic - Government of Telangana</p>
+          <p>© 2024 TG Civic - Government of Telangana</p>
           <div className="flex justify-center space-x-4 mt-2">
             <Link to="/" className="hover:text-blue-600">
               Home

@@ -103,7 +103,7 @@ const Login = () => {
           </div>
           <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
           <p className="text-gray-600 mt-2">
-            Sign in to access TS Civic services
+            Sign in to access TG Civic services
           </p>
         </div>
 
@@ -256,7 +256,7 @@ const Login = () => {
 
         {/* Footer */}
         <div className="text-center text-sm text-gray-600">
-          <p>© 2024 TS Civic - Government of Telangana</p>
+          <p>© 2024 TG Civic - Government of Telangana</p>
           <div className="flex justify-center space-x-4 mt-2">
             <Link to="/" className="hover:text-blue-600">
               Home

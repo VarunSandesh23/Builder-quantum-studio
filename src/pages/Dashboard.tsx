@@ -344,7 +344,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <span className="text-xl font-bold text-gray-900">
-                  TS Civic
+                  TG Civic
                 </span>
                 <span className="text-xs text-gray-600 ml-2">
                   {isAdmin ? "Admin Dashboard" : "Official Dashboard"}
