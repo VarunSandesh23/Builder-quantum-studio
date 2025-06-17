@@ -110,7 +110,7 @@ const Navigation = () => {
               <span className="text-xl font-bold text-gray-900">TS Civic</span>
               <span className="text-xs text-gray-600">
                 {language === "te" && "పౌర సేవలు"}
-                {language === "hi" && "नागरिक स���वाएं"}
+                {language === "hi" && "नागरिक सेवाएं"}
                 {language === "en" && "Citizen Services"}
               </span>
             </div>
@@ -315,9 +315,98 @@ const Navigation = () => {
                     </Link>
                   ))}
                   <div className="border-t pt-4 mt-4">
+                    {isAuthenticated ? (
+                      <>
+                        {/* User Info in Mobile */}
+                        <div className="bg-gray-50 rounded-lg p-3 mb-4">
+                          <div className="flex items-center space-x-3">
+                            <Avatar className="h-10 w-10">
+                              <AvatarFallback
+                                className={`text-white font-semibold ${
+                                  user?.role === "admin"
+                                    ? "bg-red-600"
+                                    : user?.role === "official"
+                                      ? "bg-green-600"
+                                      : "bg-blue-600"
+                                }`}
+                              >
+                                {user?.name.charAt(0).toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                              <p className="text-sm font-medium text-gray-900">
+                                {user?.name}
+                              </p>
+                              <p className="text-xs text-gray-600">
+                                {user?.email}
+                              </p>
+                              <div className="flex items-center gap-1 mt-1">
+                                <div
+                                  className={`w-2 h-2 rounded-full ${
+                                    user?.role === "admin"
+                                      ? "bg-red-500"
+                                      : user?.role === "official"
+                                        ? "bg-green-500"
+                                        : "bg-blue-500"
+                                  }`}
+                                />
+                                <span className="text-xs text-gray-600 capitalize">
+                                  {user?.role}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <Button variant="outline" className="w-full mb-3">
+                          <User className="w-4 h-4 mr-2" />
+                          Profile
+                        </Button>
+                        <Button variant="outline" className="w-full mb-3">
+                          <Settings className="w-4 h-4 mr-2" />
+                          Settings
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="w-full mb-3 border-red-200 text-red-600 hover:bg-red-50"
+                          onClick={() => {
+                            logout();
+                            setIsOpen(false);
+                          }}
+                        >
+                          <LogOut className="w-4 h-4 mr-2" />
+                          Logout
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          variant="outline"
+                          className="w-full mb-3"
+                          onClick={() => {
+                            navigate("/login");
+                            setIsOpen(false);
+                          }}
+                        >
+                          <LogIn className="w-4 h-4 mr-2" />
+                          Sign In
+                        </Button>
+                        <Button
+                          className="w-full mb-3"
+                          onClick={() => {
+                            navigate("/register");
+                            setIsOpen(false);
+                          }}
+                        >
+                          <UserPlus className="w-4 h-4 mr-2" />
+                          Register
+                        </Button>
+                      </>
+                    )}
+
                     <Button variant="outline" className="w-full mb-3">
                       <Phone className="w-4 h-4 mr-2" />
-                      {language === "te" && "సంప��రదించండి"}
+                      {language === "te" && "సంప్రదించండి"}
                       {language === "hi" && "संपर्क"}
                       {language === "en" && "Contact"}
                     </Button>
