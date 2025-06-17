@@ -90,7 +90,7 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
 
   // Load complaints from localStorage on mount
   useEffect(() => {
-    const savedComplaints = localStorage.getItem("ts-civic-complaints");
+    const savedComplaints = localStorage.getItem("tg-civic-complaints");
     if (savedComplaints) {
       try {
         setComplaints(JSON.parse(savedComplaints));
@@ -101,7 +101,7 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
       // Initialize with sample data if no saved complaints
       const sampleComplaints: Complaint[] = [
         {
-          id: "TSC2024001234",
+          id: "TGC2024001234",
           title: "Road damage near IT Hub",
           description:
             "Large pothole causing traffic issues and vehicle damage",
@@ -141,7 +141,7 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
           ],
         },
         {
-          id: "TSC2024001235",
+          id: "TGC2024001235",
           title: "Water supply issue in Jubilee Hills",
           description: "No water supply for the past 3 days in our area",
           category: "water",
@@ -188,7 +188,7 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
       ];
       setComplaints(sampleComplaints);
       localStorage.setItem(
-        "ts-civic-complaints",
+        "tg-civic-complaints",
         JSON.stringify(sampleComplaints),
       );
     }
@@ -196,7 +196,7 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
 
   // Save complaints to localStorage whenever complaints change
   useEffect(() => {
-    localStorage.setItem("ts-civic-complaints", JSON.stringify(complaints));
+    localStorage.setItem("tg-civic-complaints", JSON.stringify(complaints));
   }, [complaints]);
 
   const generateComplaintId = (): string => {
@@ -204,7 +204,7 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
     const randomNum = Math.floor(Math.random() * 999999)
       .toString()
       .padStart(6, "0");
-    return `TSC${year}${randomNum}`;
+    return `TGC${year}${randomNum}`;
   };
 
   const addComplaint = (
