@@ -391,30 +391,36 @@ const Dashboard = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
           {statsData.map((stat, index) => (
             <Card key={index}>
-              <CardContent className="p-6">
+              <CardContent className="p-3 sm:p-6">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600 mb-1">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1 truncate">
                       {stat.title}
                     </p>
-                    <p className="text-3xl font-bold text-gray-900">
+                    <p className="text-xl sm:text-3xl font-bold text-gray-900">
                       {stat.value}
                     </p>
                     <p
-                      className={`text-sm flex items-center gap-1 mt-1 ${
+                      className={`text-xs sm:text-sm flex items-center gap-1 mt-1 ${
                         stat.change.startsWith("+")
                           ? "text-green-600"
                           : "text-red-600"
                       }`}
                     >
                       <TrendingUp className="w-3 h-3" />
-                      {stat.change}
+                      <span className="hidden sm:inline">{stat.change}</span>
                     </p>
                   </div>
-                  <div className={`${stat.color} opacity-80`}>{stat.icon}</div>
+                  <div className={`${stat.color} opacity-80 ml-2`}>
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center">
+                      {React.cloneElement(stat.icon, {
+                        className: "w-4 h-4 sm:w-6 sm:h-6",
+                      })}
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
