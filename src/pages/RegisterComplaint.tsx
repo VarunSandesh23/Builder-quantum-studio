@@ -161,12 +161,24 @@ const RegisterComplaint = () => {
       // Send notification to admins about new complaint
       addNotification({
         type: "complaint_submitted",
-        title: "New Complaint Submitted",
-        message: `A new ${formData.subcategory} complaint has been submitted by ${formData.name} in ${formData.landmark || formData.location}`,
+        title: "🚨 New Complaint Alert",
+        message: `New ${formData.category.toUpperCase()} complaint: "${formData.title}" submitted by ${formData.name} in ${formData.landmark || formData.location}. Priority: ${formData.priority.toUpperCase()}`,
         complaintId: id,
-        userId: "admin-001", // Will be sent to all admins
+        userId: "all-admins", // Target all admin users
         userRole: "admin",
-        priority: formData.priority,
+        priority: formData.priority === "high" ? "high" : "medium",
+        actionUrl: "/dashboard",
+      });
+
+      // Also send a general notification for all officials
+      addNotification({
+        type: "complaint_submitted",
+        title: "📋 New Complaint Assigned",
+        message: `${formData.category.charAt(0).toUpperCase() + formData.category.slice(1)} complaint "${formData.title}" needs review. Location: ${formData.landmark || formData.location}`,
+        complaintId: id,
+        userId: "all-officials",
+        userRole: "official",
+        priority: formData.priority === "high" ? "high" : "medium",
         actionUrl: "/dashboard",
       });
 
