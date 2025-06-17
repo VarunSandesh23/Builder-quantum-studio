@@ -254,22 +254,25 @@ const Notifications = () => {
         </Card>
 
         {/* Notifications List */}
-        <div className="space-y-4">
+        <div className="space-y-2 sm:space-y-4">
           {filteredNotifications.length === 0 ? (
             <Card className="bg-white/80 backdrop-blur-sm">
-              <CardContent className="py-16 text-center">
-                <Bell className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <CardContent className="py-8 sm:py-16 text-center">
+                <Bell className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                   {t("no_notifications_found")}
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 mb-6 text-sm sm:text-base">
                   {filter === "unread"
                     ? t("all_caught_up")
                     : filter === "read"
                       ? "No read notifications to display."
                       : "You don't have any notifications yet."}
                 </p>
-                <Button onClick={() => navigate("/register-complaint")}>
+                <Button
+                  onClick={() => navigate("/register-complaint")}
+                  size="sm"
+                >
                   <FileText className="w-4 h-4 mr-2" />
                   Register a Complaint
                 </Button>
@@ -279,14 +282,124 @@ const Notifications = () => {
             filteredNotifications.map((notification) => (
               <Card
                 key={notification.id}
-                className={`group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white/80 backdrop-blur-sm ${
+                className={`group cursor-pointer transition-all duration-200 hover:shadow-md bg-white/80 backdrop-blur-sm ${
                   !notification.isRead
                     ? "border-l-4 border-blue-500 bg-blue-50/30"
                     : "hover:bg-gray-50/50"
                 }`}
                 onClick={() => handleNotificationClick(notification)}
               >
-                <CardContent className="p-6">
+                {/* Mobile Compact Layout */}
+                <CardContent className="p-3 sm:hidden">
+                  <div className="flex items-start gap-3">
+                    {/* Icon */}
+                    <div
+                      className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
+                        !notification.isRead ? "bg-blue-100" : "bg-gray-100"
+                      }`}
+                    >
+                      {React.cloneElement(
+                        getNotificationIcon(notification.type),
+                        {
+                          className: "w-4 h-4",
+                        },
+                      )}
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      {/* Header Row */}
+                      <div className="flex items-start justify-between mb-1">
+                        <h3
+                          className={`text-sm font-semibold leading-tight ${
+                            !notification.isRead
+                              ? "text-gray-900"
+                              : "text-gray-700"
+                          }`}
+                        >
+                          {notification.title}
+                        </h3>
+                        <div className="flex items-center gap-1 ml-2 flex-shrink-0">
+                          <Badge
+                            className={`${getPriorityColor(notification.priority)} text-xs px-1.5 py-0.5`}
+                          >
+                            {notification.priority}
+                          </Badge>
+                          {!notification.isRead && (
+                            <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Message */}
+                      <p className="text-xs text-gray-600 leading-snug mb-2 line-clamp-2">
+                        {notification.message}
+                      </p>
+
+                      {/* Bottom Row */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 text-xs text-gray-500">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{formatTime(notification.createdAt)}</span>
+                          </div>
+                          {notification.complaintId && (
+                            <div className="flex items-center gap-1">
+                              <FileText className="w-3 h-3" />
+                              <span className="font-mono text-xs">
+                                {notification.complaintId}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-1">
+                          {notification.actionUrl && (
+                            <ArrowRight className="w-4 h-4 text-gray-400" />
+                          )}
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => e.stopPropagation()}
+                                className="h-6 w-6 p-0"
+                              >
+                                <MoreVertical className="w-3 h-3" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              {!notification.isRead && (
+                                <DropdownMenuItem
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    markAsRead(notification.id);
+                                  }}
+                                >
+                                  <Eye className="w-4 h-4 mr-2" />
+                                  Mark as Read
+                                </DropdownMenuItem>
+                              )}
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  deleteNotification(notification.id);
+                                }}
+                                className="text-red-600"
+                              >
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+
+                {/* Desktop Layout */}
+                <CardContent className="p-6 hidden sm:block">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-4 flex-1">
                       {/* Icon */}
