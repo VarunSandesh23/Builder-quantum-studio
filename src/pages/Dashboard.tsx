@@ -488,92 +488,99 @@ const Dashboard = () => {
 
         {/* Filters */}
         <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Filter className="w-5 h-5" />
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+              <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
               Filters & Search
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <CardContent className="pt-0">
+            <div className="space-y-4">
+              {/* Search - Full width on mobile */}
               <div>
-                <Label>Search</Label>
-                <div className="relative">
+                <Label className="text-sm font-medium">Search</Label>
+                <div className="relative mt-1">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     placeholder="ID, Title, Name, Phone..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 h-10 text-sm"
                   />
                 </div>
               </div>
-              <div>
-                <Label>Status</Label>
-                <Select value={filterStatus} onValueChange={setFilterStatus}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="assigned">Assigned</SelectItem>
-                    <SelectItem value="in-progress">In Progress</SelectItem>
-                    <SelectItem value="resolved">Resolved</SelectItem>
-                    <SelectItem value="closed">Closed</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label>Priority</Label>
-                <Select
-                  value={filterPriority}
-                  onValueChange={setFilterPriority}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Priority</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="low">Low</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label>Category</Label>
-                <Select
-                  value={filterCategory}
-                  onValueChange={setFilterCategory}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="roads">Roads</SelectItem>
-                    <SelectItem value="water">Water</SelectItem>
-                    <SelectItem value="sanitation">Sanitation</SelectItem>
-                    <SelectItem value="electricity">Electricity</SelectItem>
-                    <SelectItem value="streetlights">Street Lights</SelectItem>
-                    <SelectItem value="safety">Safety</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex items-end">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setFilterStatus("all");
-                    setFilterPriority("all");
-                    setFilterCategory("all");
-                    setSearchTerm("");
-                  }}
-                  className="w-full"
-                >
-                  Clear All
-                </Button>
+
+              {/* Filters Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div>
+                  <Label className="text-sm font-medium">Status</Label>
+                  <Select value={filterStatus} onValueChange={setFilterStatus}>
+                    <SelectTrigger className="h-10 text-sm mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="assigned">Assigned</SelectItem>
+                      <SelectItem value="in-progress">In Progress</SelectItem>
+                      <SelectItem value="resolved">Resolved</SelectItem>
+                      <SelectItem value="closed">Closed</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">Priority</Label>
+                  <Select
+                    value={filterPriority}
+                    onValueChange={setFilterPriority}
+                  >
+                    <SelectTrigger className="h-10 text-sm mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Priority</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="low">Low</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">Category</Label>
+                  <Select
+                    value={filterCategory}
+                    onValueChange={setFilterCategory}
+                  >
+                    <SelectTrigger className="h-10 text-sm mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Categories</SelectItem>
+                      <SelectItem value="roads">Roads</SelectItem>
+                      <SelectItem value="water">Water</SelectItem>
+                      <SelectItem value="sanitation">Sanitation</SelectItem>
+                      <SelectItem value="electricity">Electricity</SelectItem>
+                      <SelectItem value="streetlights">
+                        Street Lights
+                      </SelectItem>
+                      <SelectItem value="safety">Safety</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setFilterStatus("all");
+                      setFilterPriority("all");
+                      setFilterCategory("all");
+                      setSearchTerm("");
+                    }}
+                    className="w-full h-10 text-sm"
+                  >
+                    Clear All
+                  </Button>
+                </div>
               </div>
             </div>
           </CardContent>
