@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useComplaints } from "@/context/ComplaintContext";
+import { useNotifications } from "@/context/NotificationContext";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -47,6 +48,7 @@ import {
 const RegisterComplaint = () => {
   const navigate = useNavigate();
   const { addComplaint } = useComplaints();
+  const { addNotification } = useNotifications();
   const [language] = useState("en");
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [complaintId, setComplaintId] = useState("");
@@ -154,6 +156,18 @@ const RegisterComplaint = () => {
         phone: formData.phone,
         email: formData.email,
         images: imageBase64,
+      });
+
+      // Send notification to admins about new complaint
+      addNotification({
+        type: "complaint_submitted",
+        title: "New Complaint Submitted",
+        message: `A new ${formData.subcategory} complaint has been submitted by ${formData.name} in ${formData.landmark || formData.location}`,
+        complaintId: id,
+        userId: "admin-001", // Will be sent to all admins
+        userRole: "admin",
+        priority: formData.priority,
+        actionUrl: "/dashboard",
       });
 
       setComplaintId(id);

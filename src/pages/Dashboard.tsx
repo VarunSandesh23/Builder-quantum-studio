@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useComplaints, Complaint } from "@/context/ComplaintContext";
 import { useAuth } from "@/context/AuthContext";
+import { useNotifications } from "@/context/NotificationContext";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -71,6 +72,7 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { addNotification } = useNotifications();
   const {
     complaints,
     updateComplaintStatus,
@@ -284,6 +286,7 @@ const Dashboard = () => {
       actionForm.status as Complaint["status"],
       actionForm.notes,
       user?.name || "Admin",
+      addNotification, // Pass notification callback
     );
 
     setShowActionDialog(false);

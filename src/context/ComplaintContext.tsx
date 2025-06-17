@@ -50,6 +50,7 @@ interface ComplaintContextType {
     status: Complaint["status"],
     notes: string,
     updatedBy: string,
+    notificationCallback?: (notification: any) => void,
   ) => void;
   bulkUpdateStatus: (
     ids: string[],
@@ -84,6 +85,8 @@ export const useComplaints = () => {
 
 export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
+
+  // We'll access notifications through a separate hook in the component that uses this
 
   // Load complaints from localStorage on mount
   useEffect(() => {
@@ -312,26 +315,66 @@ export const ComplaintProvider = ({ children }: { children: ReactNode }) => {
     status: Complaint["status"],
     notes: string,
     updatedBy: string,
+    notificationCallback?: (notification: any) => void,
   ) => {
     setComplaints((prev) =>
-      prev.map((complaint) =>
-        complaint.id === id
-          ? {
-              ...complaint,
-              status,
-              updatedAt: new Date().toISOString(),
-              history: [
-                ...complaint.history,
-                {
-                  timestamp: new Date().toISOString(),
-                  status,
-                  notes,
-                  updatedBy,
-                },
-              ],
-            }
-          : complaint,
-      ),
+      prev.map((complaint) => {
+        if (complaint.id === id) {
+          const updatedComplaint = {
+            ...complaint,
+            status,
+            updatedAt: new Date().toISOString(),
+            history: [
+              ...complaint.history,
+              {
+                timestamp: new Date().toISOString(),
+                status,
+                notes,
+                updatedBy,
+              },
+            ],
+          };
+
+          // Send notification to complaint owner if resolved
+          if (status === "resolved" && notificationCallback) {
+            notificationCallback({
+              type: "complaint_resolved",
+              title: "Your Complaint Has Been Resolved!",
+              message: `Your complaint "${complaint.title}" has been successfully resolved. ${notes}`,
+              complaintId: complaint.id,
+              userId: complaint.phone, // Using phone as user identifier
+              userRole: "citizen",
+              priority: "high",
+              actionUrl: "/track-complaint",
+            });
+          } else if (status === "assigned" && notificationCallback) {
+            notificationCallback({
+              type: "complaint_assigned",
+              title: "Complaint Assigned",
+              message: `Your complaint "${complaint.title}" has been assigned to ${updatedBy}. ${notes}`,
+              complaintId: complaint.id,
+              userId: complaint.phone,
+              userRole: "citizen",
+              priority: "medium",
+              actionUrl: "/track-complaint",
+            });
+          } else if (status === "in-progress" && notificationCallback) {
+            notificationCallback({
+              type: "complaint_updated",
+              title: "Complaint Update",
+              message: `Work has started on your complaint "${complaint.title}". ${notes}`,
+              complaintId: complaint.id,
+              userId: complaint.phone,
+              userRole: "citizen",
+              priority: "medium",
+              actionUrl: "/track-complaint",
+            });
+          }
+
+          return updatedComplaint;
+        }
+        return complaint;
+      }),
     );
   };
 

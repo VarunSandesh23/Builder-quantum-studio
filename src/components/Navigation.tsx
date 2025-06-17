@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { useNotifications } from "@/context/NotificationContext";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -62,6 +63,7 @@ const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
+  const { unreadCount } = useNotifications();
 
   // Handle scroll effect
   useEffect(() => {
@@ -235,10 +237,15 @@ const Navigation = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="relative hover:bg-gray-100 transition-all duration-300"
+                    onClick={() => navigate("/notifications")}
+                    className="relative hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                   >
                     <Bell className="w-5 h-5" />
-                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-1 -right-1 min-w-[20px] h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse font-medium">
+                        {unreadCount > 99 ? "99+" : unreadCount}
+                      </span>
+                    )}
                   </Button>
 
                   {/* User Info Display - Desktop */}
@@ -331,9 +338,11 @@ const Navigation = () => {
                       >
                         <Bell className="mr-3 h-4 w-4" />
                         <span>Notifications</span>
-                        <span className="ml-auto text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full">
-                          3
-                        </span>
+                        {unreadCount > 0 && (
+                          <span className="ml-auto text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
+                            {unreadCount > 99 ? "99+" : unreadCount}
+                          </span>
+                        )}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
@@ -517,9 +526,11 @@ const Navigation = () => {
                             >
                               <Bell className="w-4 h-4 mr-3" />
                               Notifications
-                              <span className="ml-auto text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full">
-                                3
-                              </span>
+                              {unreadCount > 0 && (
+                                <span className="ml-auto text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
+                                  {unreadCount > 99 ? "99+" : unreadCount}
+                                </span>
+                              )}
                             </Button>
                             <Button
                               variant="outline"
