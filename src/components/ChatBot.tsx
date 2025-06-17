@@ -288,10 +288,10 @@ const ChatBot = () => {
       const shouldShowQuickReplies = Math.random() > 0.7; // Show quick replies 30% of the time
       const quickReplies = shouldShowQuickReplies
         ? [
-            "Ask another question",
-            "Register complaint",
-            "Track complaint",
-            "Contact support",
+            t("ai_quick_another"),
+            t("ai_quick_register"),
+            t("ai_quick_track"),
+            t("ai_quick_support"),
           ]
         : undefined;
 
@@ -353,7 +353,7 @@ const ChatBot = () => {
                 <CardTitle className="text-lg font-semibold">
                   TS Civic AI
                 </CardTitle>
-                <p className="text-blue-100 text-sm">Online • Ready to help</p>
+                <p className="text-blue-100 text-sm">{t("ai_online_status")}</p>
               </div>
             </div>
             <Button
@@ -469,28 +469,28 @@ const ChatBot = () => {
                 variant="ghost"
                 size="sm"
                 className="text-xs"
-                onClick={() => handleQuickReply("How to register complaint?")}
+                onClick={() => handleQuickReply(t("ai_quick_register"))}
               >
                 <FileText className="w-3 h-3 mr-1" />
-                Register
+                {t("ai_register_btn")}
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 className="text-xs"
-                onClick={() => handleQuickReply("Track my complaint")}
+                onClick={() => handleQuickReply(t("ai_quick_track"))}
               >
                 <Search className="w-3 h-3 mr-1" />
-                Track
+                {t("ai_track_btn")}
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 className="text-xs"
-                onClick={() => handleQuickReply("Contact support")}
+                onClick={() => handleQuickReply(t("ai_quick_support"))}
               >
                 <Phone className="w-3 h-3 mr-1" />
-                Support
+                {t("ai_support_btn")}
               </Button>
             </div>
           </div>
