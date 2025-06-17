@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (user) {
       localStorage.setItem("tg-civic-user", JSON.stringify(user));
     } else {
-      localStorage.removeItem("ts-civic-user");
+      localStorage.removeItem("tg-civic-user");
     }
   }, [user]);
 
