@@ -71,18 +71,46 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       // Initialize with sample notifications
       const sampleNotifications: Notification[] = [
         {
-          id: "notif-001",
+          id: "notification-001",
           type: "complaint_submitted",
-          title: "New Complaint Received",
+          title: "🚨 New High Priority Complaint",
           message:
-            "A new road damage complaint has been submitted in Hitec City",
+            "ROADS complaint: 'Dangerous pothole causing accidents' submitted by Rajesh Kumar in Hitec City. Priority: HIGH",
           complaintId: "TGC2024001234",
-          userId: "admin-001",
+          userId: "all-admins",
           userRole: "admin",
+          priority: "high",
+          actionUrl: "/dashboard",
+          createdAt: "2024-01-16T09:30:00Z",
           isRead: false,
-          createdAt: new Date().toISOString(),
+        },
+        {
+          id: "notification-004",
+          type: "complaint_submitted",
+          title: "📋 New Water Supply Complaint",
+          message:
+            "WATER complaint: 'No water for 3 days' submitted by Priya Sharma in Jubilee Hills. Priority: MEDIUM",
+          complaintId: "TGC2024001235",
+          userId: "all-admins",
+          userRole: "admin",
           priority: "medium",
           actionUrl: "/dashboard",
+          createdAt: "2024-01-16T08:15:00Z",
+          isRead: false,
+        },
+        {
+          id: "notification-005",
+          type: "complaint_submitted",
+          title: "🚨 Urgent Street Light Issue",
+          message:
+            "STREET-LIGHTS complaint: 'Dark street causing safety concerns' submitted by Mohammed Ali in Gachibowli. Priority: HIGH",
+          complaintId: "TGC2024001236",
+          userId: "all-admins",
+          userRole: "admin",
+          priority: "high",
+          actionUrl: "/dashboard",
+          createdAt: "2024-01-16T07:45:00Z",
+          isRead: false,
         },
         {
           id: "notif-002",
