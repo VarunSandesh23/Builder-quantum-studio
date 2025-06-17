@@ -97,8 +97,6 @@ const Navigation = () => {
     },
   ];
 
-
-
   const isActiveRoute = (href: string) => {
     return location.pathname === href;
   };
@@ -197,10 +195,10 @@ const Navigation = () => {
                 <Select value={language} onValueChange={setLanguage}>
                   <SelectTrigger className="w-[140px] h-10 border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300">
                     <SelectValue />
-                    <ChevronDown className="w-4 h-4 opacity-50" />
-                  <SelectTrigger className="w-32 bg-white/80 border border-gray-200 hover:bg-white/90 transition-all duration-300 hover:scale-105">
-                    <SelectValue />
                   </SelectTrigger>
+                  <SelectContent className="bg-white/95 backdrop-blur-lg border border-gray-200">
+                    <SelectItem value="en" className="hover:bg-blue-50">
+                      🇺🇸 English
                     </SelectItem>
                     <SelectItem value="hi" className="hover:bg-blue-50">
                       🇮🇳 हिंदी
@@ -350,23 +348,23 @@ const Navigation = () => {
                 </div>
               ) : (
                 <div className="flex items-center space-x-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => navigate("/login")}
-                      className="hover:scale-105 transition-all duration-300 hover:shadow-md"
-                    >
-                      <LogIn className="w-4 h-4 mr-2" />
-                      {t("sign_in")}
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => navigate("/register")}
-                      className="hidden sm:flex bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:scale-105 transition-all duration-300 hover:shadow-lg"
-                    >
-                      <UserPlus className="w-4 h-4 mr-2" />
-                      {t("register")}
-                    </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigate("/login")}
+                    className="hover:scale-105 transition-all duration-300 hover:shadow-md"
+                  >
+                    <LogIn className="w-4 h-4 mr-2" />
+                    {t("sign_in")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => navigate("/register")}
+                    className="hidden sm:flex bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    {t("register")}
+                  </Button>
                 </div>
               )}
 
