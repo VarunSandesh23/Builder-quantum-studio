@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,7 +40,7 @@ import {
 
 const Index = () => {
   const { user, isAuthenticated } = useAuth();
-  const [language] = useState("en");
+  const { t } = useLanguage();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [visibleStats, setVisibleStats] = useState(false);
@@ -71,32 +72,32 @@ const Index = () => {
     {
       icon: <FileText className="w-8 h-8" />,
       number: "12,847",
-      label: "Complaints Registered",
-      sublabel: "This Month",
+      label: t("complaints_registered"),
+      sublabel: t("this_month"),
       color: "from-blue-500 to-blue-600",
       delay: "delay-0",
     },
     {
       icon: <CheckCircle className="w-8 h-8" />,
       number: "9,234",
-      label: "Issues Resolved",
-      sublabel: "Success Rate: 94%",
+      label: t("issues_resolved"),
+      sublabel: t("success_rate"),
       color: "from-green-500 to-green-600",
       delay: "delay-150",
     },
     {
       icon: <Clock className="w-8 h-8" />,
       number: "2.3",
-      label: "Days Average",
-      sublabel: "Resolution Time",
+      label: t("days_average"),
+      sublabel: t("resolution_time"),
       color: "from-orange-500 to-orange-600",
       delay: "delay-300",
     },
     {
       icon: <Users className="w-8 h-8" />,
       number: "1.2M+",
-      label: "Active Citizens",
-      sublabel: "Registered Users",
+      label: t("active_citizens"),
+      sublabel: t("registered_users"),
       color: "from-purple-500 to-purple-600",
       delay: "delay-450",
     },
@@ -105,32 +106,29 @@ const Index = () => {
   const features = [
     {
       icon: <FileText className="w-8 h-8" />,
-      title: "Smart Registration",
-      description:
-        "AI-powered complaint categorization with photo upload and GPS location",
+      title: t("smart_registration"),
+      description: t("smart_registration_desc"),
       gradient: "from-blue-500 to-cyan-500",
       benefits: ["Photo Evidence", "GPS Location", "Smart Categories"],
     },
     {
       icon: <Search className="w-8 h-8" />,
-      title: "Real-time Tracking",
-      description:
-        "Live status updates with SMS notifications and estimated completion",
+      title: t("real_time_tracking"),
+      description: t("real_time_tracking_desc"),
       gradient: "from-green-500 to-emerald-500",
       benefits: ["Live Updates", "SMS Alerts", "ETA Tracking"],
     },
     {
       icon: <Globe className="w-8 h-8" />,
-      title: "Multilingual Support",
-      description:
-        "Available in Telugu, Hindi & English with voice-to-text support",
+      title: t("multilingual_support"),
+      description: t("multilingual_support_desc"),
       gradient: "from-purple-500 to-pink-500",
       benefits: ["3 Languages", "Voice Input", "Text Translation"],
     },
     {
       icon: <MessageCircle className="w-8 h-8" />,
-      title: "AI Assistant",
-      description: "24/7 intelligent chatbot for instant help and guidance",
+      title: t("ai_assistant"),
+      description: t("ai_assistant_desc"),
       gradient: "from-orange-500 to-red-500",
       benefits: ["24/7 Support", "Instant Help", "Smart Routing"],
     },
@@ -139,42 +137,42 @@ const Index = () => {
   const complaintCategories = [
     {
       icon: <Car className="w-6 h-6" />,
-      label: "Roads & Transport",
+      label: t("roads"),
       count: "2,847",
       color: "bg-blue-500",
       hoverColor: "hover:bg-blue-600",
     },
     {
       icon: <Droplets className="w-6 h-6" />,
-      label: "Water Supply",
+      label: t("water"),
       count: "1,923",
       color: "bg-cyan-500",
       hoverColor: "hover:bg-cyan-600",
     },
     {
       icon: <Trash2 className="w-6 h-6" />,
-      label: "Sanitation",
+      label: t("sanitation"),
       count: "1,456",
       color: "bg-green-500",
       hoverColor: "hover:bg-green-600",
     },
     {
       icon: <Zap className="w-6 h-6" />,
-      label: "Electricity",
+      label: t("electricity"),
       count: "987",
       color: "bg-yellow-500",
       hoverColor: "hover:bg-yellow-600",
     },
     {
       icon: <Lightbulb className="w-6 h-6" />,
-      label: "Street Lights",
+      label: t("street_lights"),
       count: "654",
       color: "bg-orange-500",
       hoverColor: "hover:bg-orange-600",
     },
     {
       icon: <Shield className="w-6 h-6" />,
-      label: "Public Safety",
+      label: t("safety"),
       count: "432",
       color: "bg-red-500",
       hoverColor: "hover:bg-red-600",
@@ -266,18 +264,16 @@ const Index = () => {
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
               <span className="bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent">
-                Transform Your City
+                {t("transform_your_city")}
               </span>
               <br />
               <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                One Report at a Time
+                {t("one_report_at_time")}
               </span>
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Join the digital revolution in civic engagement. Report issues,
-              track progress, and see real change happen in your community with
-              TS Civic.
+              {t("join_digital_revolution")}
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
@@ -288,7 +284,7 @@ const Index = () => {
               >
                 <Link to="/register-complaint">
                   <FileText className="w-6 h-6 mr-3" />
-                  Report an Issue
+                  {t("report_an_issue")}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
               </Button>
@@ -300,7 +296,7 @@ const Index = () => {
               >
                 <Link to="/track-complaint">
                   <Search className="w-6 h-6 mr-3" />
-                  Track Progress
+                  {t("track_progress")}
                 </Link>
               </Button>
             </div>

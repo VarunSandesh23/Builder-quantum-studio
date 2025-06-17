@@ -50,8 +50,6 @@ import {
 interface NavItem {
   href: string;
   label: string;
-  labelTe?: string;
-  labelHi?: string;
   icon?: React.ReactNode;
   badge?: number;
 }
