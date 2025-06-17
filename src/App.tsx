@@ -30,52 +30,53 @@ const App = () => (
               <Toaster />
               <Sonner />
               <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route
-                  path="/register-complaint"
-                  element={
-                    <ProtectedRoute>
-                      <RegisterComplaint />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/track-complaint"
-                  element={
-                    <ProtectedRoute>
-                      <TrackComplaint />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute requiredRole={["admin", "official"]}>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/notifications"
-                  element={
-                    <ProtectedRoute>
-                      <Notifications />
-                    </ProtectedRoute>
-                  }
-                />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-              <ChatBot />
-            </BrowserRouter>
-          </TooltipProvider>
-        </ComplaintProvider>
-      </NotificationProvider>
-    </AuthProvider>
-  </LanguageProvider>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route
+                    path="/register-complaint"
+                    element={
+                      <ProtectedRoute>
+                        <RegisterComplaint />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/track-complaint"
+                    element={
+                      <ProtectedRoute>
+                        <TrackComplaint />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute requiredRole={["admin", "official"]}>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/notifications"
+                    element={
+                      <ProtectedRoute>
+                        <Notifications />
+                      </ProtectedRoute>
+                    }
+                  />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+                <ChatBot />
+              </BrowserRouter>
+            </TooltipProvider>
+          </ComplaintProvider>
+        </NotificationProvider>
+      </AuthProvider>
+    </LanguageProvider>
+  </QueryClientProvider>
 );
 
 export default App;
