@@ -53,10 +53,7 @@ const Index = () => {
   // Calculate dynamic statistics
   const totalComplaints = complaintStats.total;
   const resolvedComplaints = complaintStats.resolved + complaintStats.closed;
-  const successRate =
-    totalComplaints > 0
-      ? Math.round((resolvedComplaints / totalComplaints) * 100)
-      : 72;
+  const successRate = totalComplaints > 0 ? Math.round((resolvedComplaints / totalComplaints) * 100) : 72;
   const avgResolutionTime = totalComplaints > 0 ? "2.3" : "2.3"; // Could be calculated from actual data
   const activeUsers = Math.floor(totalComplaints * 45); // Estimate based on complaints
 
@@ -110,10 +107,7 @@ const Index = () => {
     },
     {
       icon: <Users className="w-8 h-8" />,
-      number:
-        activeUsers > 1000
-          ? `${(activeUsers / 1000).toFixed(1)}K+`
-          : activeUsers.toString(),
+      number: activeUsers > 1000 ? `${(activeUsers/1000).toFixed(1)}K+` : activeUsers.toString(),
       label: t("active_citizens"),
       sublabel: t("registered_users"),
       color: "from-purple-500 to-purple-600",
@@ -154,13 +148,12 @@ const Index = () => {
 
   // Calculate category-wise complaint counts
   const categoryStats = {
-    roads: complaints.filter((c) => c.category === "roads").length,
-    water: complaints.filter((c) => c.category === "water").length,
-    sanitation: complaints.filter((c) => c.category === "sanitation").length,
-    electricity: complaints.filter((c) => c.category === "electricity").length,
-    streetlights: complaints.filter((c) => c.category === "street-lights")
-      .length,
-    safety: complaints.filter((c) => c.category === "safety").length,
+    roads: complaints.filter(c => c.category === "roads").length,
+    water: complaints.filter(c => c.category === "water").length,
+    sanitation: complaints.filter(c => c.category === "sanitation").length,
+    electricity: complaints.filter(c => c.category === "electricity").length,
+    streetlights: complaints.filter(c => c.category === "street-lights").length,
+    safety: complaints.filter(c => c.category === "safety").length,
   };
 
   const complaintCategories = [
@@ -539,28 +532,31 @@ const Index = () => {
                     <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
                       {testimonials[currentTestimonial].avatar}
                     </div>
-                    <div className="text-left">
-                      <div className="font-bold text-lg text-gray-900">
-                        {testimonials[currentTestimonial].name}
-                      </div>
-                      <div className="text-gray-600">
-                        {testimonials[currentTestimonial].role}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        📍 {testimonials[currentTestimonial].location}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Testimonial indicators */}
-            <div className="flex justify-center mt-8 space-x-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      className={`transition-all duration-500 ${
+                        visibleStats ? `animate-fade-in ${stat.delay}` : "opacity-0"
+                      }`}
+                    >
+                      <div
+                        className={`p-8 rounded-2xl bg-gradient-to-br ${stat.color} text-white relative overflow-hidden group hover:scale-105 transition-all duration-300`}
+                      >
+                        <div className="relative z-10">
+                          <div className="flex items-center justify-between mb-4">
+                            {stat.icon}
+                            <div className="flex items-center space-x-1">
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                              <span className="text-xs text-white/70">Live</span>
+                            </div>
+                          </div>
+                          <div className="space-y-1">
+                            <div className="text-3xl font-bold">{stat.number}</div>
+                            <div className="text-white/90 font-medium">
+                              {stat.label}
+                            </div>
+                            <div className="text-white/70 text-sm">
+                              {stat.sublabel}
+                            </div>
+                          </div>
+                        </div>
                     index === currentTestimonial
                       ? "bg-blue-600 w-8"
                       : "bg-gray-300"
