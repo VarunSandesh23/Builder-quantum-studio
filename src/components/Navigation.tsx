@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -17,6 +18,15 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
   Menu,
   FileText,
   Search,
@@ -24,6 +34,11 @@ import {
   MessageCircle,
   Phone,
   Building2,
+  LogIn,
+  LogOut,
+  User,
+  Settings,
+  UserPlus,
 } from "lucide-react";
 
 interface NavItem {
@@ -38,6 +53,8 @@ const Navigation = () => {
   const [language, setLanguage] = useState("en");
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const navItems: NavItem[] = [
     {
@@ -139,13 +156,82 @@ const Navigation = () => {
               {language === "en" && "Contact"}
             </Button>
 
-            {/* Help/Chatbot */}
-            <Button size="sm" className="hidden sm:flex">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              {language === "te" && "సహాయం"}
-              {language === "hi" && "मदद"}
-              {language === "en" && "Help"}
-            </Button>
+            {/* Authentication */}
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-blue-600 text-white">
+                        {user?.name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {user?.name}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {user?.email}
+                      </p>
+                      <div className="flex items-center gap-1 mt-1">
+                        <div
+                          className={`w-2 h-2 rounded-full ${
+                            user?.role === "admin"
+                              ? "bg-red-500"
+                              : user?.role === "official"
+                                ? "bg-green-500"
+                                : "bg-blue-500"
+                          }`}
+                        />
+                        <span className="text-xs text-muted-foreground capitalize">
+                          {user?.role}
+                        </span>
+                      </div>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/profile")}>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/settings")}>
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate("/login")}
+                >
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Sign In
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => navigate("/register")}
+                  className="hidden sm:flex"
+                >
+                  <UserPlus className="w-4 h-4 mr-2" />
+                  Register
+                </Button>
+              </div>
+            )}
 
             {/* Mobile menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
