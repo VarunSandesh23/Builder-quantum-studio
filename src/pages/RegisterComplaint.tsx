@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navigation from "@/components/Navigation";
+import { useComplaints } from "@/context/ComplaintContext";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,14 +20,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Camera,
   MapPin,
   Upload,
   FileText,
-  Phone,
-  Mail,
   User,
   Car,
   Droplets,
@@ -37,11 +41,17 @@ import {
   Shield,
   AlertCircle,
   CheckCircle2,
+  Copy,
 } from "lucide-react";
 
 const RegisterComplaint = () => {
   const navigate = useNavigate();
+  const { addComplaint } = useComplaints();
   const [language] = useState("en");
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [complaintId, setComplaintId] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     category: "",
     subcategory: "",
@@ -49,11 +59,10 @@ const RegisterComplaint = () => {
     description: "",
     location: "",
     landmark: "",
-    priority: "medium",
+    priority: "medium" as "low" | "medium" | "high",
     name: "",
     phone: "",
     email: "",
-    anonymous: false,
     images: [] as File[],
   });
 
@@ -61,148 +70,55 @@ const RegisterComplaint = () => {
     {
       id: "roads",
       icon: <Car className="w-5 h-5" />,
-      label:
-        language === "te" ? "రోడ్లు" : language === "hi" ? "सड़कें" : "Roads",
-      subcategories: [
-        language === "te"
-          ? "రోడ్ డ్యామేజ్"
-          : language === "hi"
-            ? "सड़क क्षति"
-            : "Road Damage",
-        language === "te"
-          ? "పోట్‌హోల్స్"
-          : language === "hi"
-            ? "गड्ढे"
-            : "Potholes",
-        language === "te"
-          ? "ట్రాఫిక్ సిగ్నల్స్"
-          : language === "hi"
-            ? "ट्रैफिक सिग्नल"
-            : "Traffic Signals",
-      ],
+      label: "Roads",
+      subcategories: ["Road Damage", "Potholes", "Traffic Signals"],
     },
     {
       id: "water",
       icon: <Droplets className="w-5 h-5" />,
-      label: language === "te" ? "నీరు" : language === "hi" ? "पानी" : "Water",
-      subcategories: [
-        language === "te"
-          ? "నీటి కొరత"
-          : language === "hi"
-            ? "पानी की कमी"
-            : "Water Shortage",
-        language === "te"
-          ? "పైప్ లీకేజీ"
-          : language === "hi"
-            ? "पाइप लीकेज"
-            : "Pipe Leakage",
-        language === "te"
-          ? "నీటి నాణ్యత"
-          : language === "hi"
-            ? "पानी की गुणवत्ता"
-            : "Water Quality",
-      ],
+      label: "Water",
+      subcategories: ["Water Shortage", "Pipe Leakage", "Water Quality"],
     },
     {
       id: "sanitation",
       icon: <Trash2 className="w-5 h-5" />,
-      label:
-        language === "te"
-          ? "పరిశుభ్రత"
-          : language === "hi"
-            ? "स्वच्छता"
-            : "Sanitation",
-      subcategories: [
-        language === "te"
-          ? "చెత్త సేకరణ"
-          : language === "hi"
-            ? "कचरा संग्रह"
-            : "Garbage Collection",
-        language === "te"
-          ? "డ్రైనేజీ"
-          : language === "hi"
-            ? "ड्रेनेज"
-            : "Drainage",
-        language === "te"
-          ? "మురుగు నీరు"
-          : language === "hi"
-            ? "गंदा पानी"
-            : "Sewage",
-      ],
+      label: "Sanitation",
+      subcategories: ["Garbage Collection", "Drainage", "Sewage"],
     },
     {
       id: "electricity",
       icon: <Zap className="w-5 h-5" />,
-      label:
-        language === "te"
-          ? "విద్యుత్"
-          : language === "hi"
-            ? "बिजली"
-            : "Electricity",
-      subcategories: [
-        language === "te"
-          ? "పవర్ కట్"
-          : language === "hi"
-            ? "बिजली कटौती"
-            : "Power Cut",
-        language === "te"
-          ? "లైన్ ఫాల్ట్"
-          : language === "hi"
-            ? "लाइन फॉल्ट"
-            : "Line Fault",
-        language === "te"
-          ? "ట్రాన్స్‌ఫార్మర్ ఇష్యూ"
-          : language === "hi"
-            ? "ट्रांसफार्मर समस्या"
-            : "Transformer Issue",
-      ],
+      label: "Electricity",
+      subcategories: ["Power Cut", "Line Fault", "Transformer Issue"],
     },
     {
       id: "streetlights",
       icon: <Lightbulb className="w-5 h-5" />,
-      label:
-        language === "te"
-          ? "వీధి దీపాలు"
-          : language === "hi"
-            ? "स्ट्रीट लाइट्स"
-            : "Street Lights",
-      subcategories: [
-        language === "te"
-          ? "దీపం పని చేయడం లేదు"
-          : language === "hi"
-            ? "लाइट काम नहीं कर रही"
-            : "Light Not Working",
-        language === "te"
-          ? "పోల్ డ్యామ��జ్"
-          : language === "hi"
-            ? "पोल क्षति"
-            : "Pole Damage",
-      ],
+      label: "Street Lights",
+      subcategories: ["Light Not Working", "Pole Damage"],
     },
     {
       id: "safety",
       icon: <Shield className="w-5 h-5" />,
-      label:
-        language === "te" ? "భద్రత" : language === "hi" ? "सुरक्षा" : "Safety",
+      label: "Safety",
       subcategories: [
-        language === "te"
-          ? "వాహన పార్కింగ్"
-          : language === "hi"
-            ? "वाहन पार्किंग"
-            : "Vehicle Parking",
-        language === "te"
-          ? "అనధికార నిర్మాణం"
-          : language === "hi"
-            ? "अवैध निर्माण"
-            : "Illegal Construction",
-        language === "te"
-          ? "గోవర్నమెంట్ ప్రాపర్టీ ఎన్‌క్రోచ్‌మెంట్"
-          : language === "hi"
-            ? "सरकारी संपत्ति अतिक्रमण"
-            : "Government Property Encroachment",
+        "Vehicle Parking",
+        "Illegal Construction",
+        "Government Property Encroachment",
       ],
     },
   ];
+
+  const convertFilesToBase64 = async (files: File[]): Promise<string[]> => {
+    const promises = files.map((file) => {
+      return new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+    });
+    return Promise.all(promises);
+  };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -217,21 +133,37 @@ const RegisterComplaint = () => {
     setFormData({ ...formData, images: newImages });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate complaint submission
-    console.log("Complaint submitted:", formData);
+    setIsSubmitting(true);
 
-    // Show success message and redirect
-    alert(
-      language === "te"
-        ? "మీ ఫిర్యాదు విజయవంతంగా నమోదు చేయబడింది!"
-        : language === "hi"
-          ? "आपकी शिकायत सफलतापूर्वक दर्ज की गई!"
-          : "Your complaint has been registered successfully!",
-    );
+    try {
+      // Convert images to base64
+      const imageBase64 = await convertFilesToBase64(formData.images);
 
-    navigate("/track-complaint");
+      // Submit complaint
+      const id = addComplaint({
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        subcategory: formData.subcategory,
+        location: formData.location,
+        landmark: formData.landmark,
+        priority: formData.priority,
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        images: imageBase64,
+      });
+
+      setComplaintId(id);
+      setShowSuccessDialog(true);
+    } catch (error) {
+      console.error("Error submitting complaint:", error);
+      alert("Error submitting complaint. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const getCurrentLocation = () => {
@@ -246,22 +178,49 @@ const RegisterComplaint = () => {
     }
   };
 
+  const copyComplaintId = () => {
+    navigator.clipboard.writeText(complaintId);
+  };
+
+  const handleDialogClose = () => {
+    setShowSuccessDialog(false);
+    navigate("/track-complaint");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <Navigation />
+      {/* Simple Navigation */}
+      <nav className="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
+                <FileText className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <span className="text-xl font-bold text-gray-900">
+                  TS Civic
+                </span>
+                <span className="text-xs text-gray-600 ml-2">
+                  Register Complaint
+                </span>
+              </div>
+            </div>
+            <Button variant="outline" onClick={() => navigate("/")}>
+              Back to Home
+            </Button>
+          </div>
+        </div>
+      </nav>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {language === "te" && "ఫిర్యాదు నమోదు చేయండి"}
-            {language === "hi" && "शिकायत दर्ज करें"}
-            {language === "en" && "Register Complaint"}
+            Register Complaint
           </h1>
           <p className="text-lg text-gray-600">
-            {language === "te" && "మీ పౌర సమస్యను వివరంగా నివేదించండి"}
-            {language === "hi" && "अपनी नागरिक समस्या का विस्तार से वर्णन करें"}
-            {language === "en" && "Report your civic issue in detail"}
+            Report your civic issue in detail
           </p>
         </div>
 
@@ -271,16 +230,10 @@ const RegisterComplaint = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
-                {language === "te" && "సమస్య వర్గం"}
-                {language === "hi" && "समस्या श्रेणी"}
-                {language === "en" && "Issue Category"}
+                Issue Category
               </CardTitle>
               <CardDescription>
-                {language === "te" &&
-                  "మీ సమస్యకు సంబంధించిన వర్గాన్ని ఎంచుకోండి"}
-                {language === "hi" && "अपनी समस्या से संबंधित श्रेणी चुनें"}
-                {language === "en" &&
-                  "Choose the category related to your issue"}
+                Choose the category related to your issue
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -290,7 +243,7 @@ const RegisterComplaint = () => {
                     key={category.id}
                     className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                       formData.category === category.id
-                        ? "border-civic-500 bg-civic-50"
+                        ? "border-blue-500 bg-blue-50"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
                     onClick={() =>
@@ -311,11 +264,7 @@ const RegisterComplaint = () => {
 
               {formData.category && (
                 <div className="mt-4">
-                  <Label htmlFor="subcategory">
-                    {language === "te" && "ఉప వర్గం"}
-                    {language === "hi" && "उप श्रेणी"}
-                    {language === "en" && "Subcategory"}
-                  </Label>
+                  <Label htmlFor="subcategory">Subcategory</Label>
                   <Select
                     value={formData.subcategory}
                     onValueChange={(value) =>
@@ -323,15 +272,7 @@ const RegisterComplaint = () => {
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue
-                        placeholder={
-                          language === "te"
-                            ? "ఉప వర్గాన్ని ఎంచుకోండి"
-                            : language === "hi"
-                              ? "उप श्रेणी चुनें"
-                              : "Select subcategory"
-                        }
-                      />
+                      <SelectValue placeholder="Select subcategory" />
                     </SelectTrigger>
                     <SelectContent>
                       {categories
@@ -351,19 +292,12 @@ const RegisterComplaint = () => {
           {/* Issue Details */}
           <Card>
             <CardHeader>
-              <CardTitle>
-                {language === "te" && "సమస్య వివరాలు"}
-                {language === "hi" && "समस्या विवरण"}
-                {language === "en" && "Issue Details"}
-              </CardTitle>
+              <CardTitle>Issue Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <Label htmlFor="title">
-                  {language === "te" && "సమస్య శీర్షిక"}
-                  {language === "hi" && "समस्या शीर्षक"}
-                  {language === "en" && "Issue Title"}
-                  <span className="text-red-500">*</span>
+                  Issue Title <span className="text-red-500">*</span>
                 </Label>
                 <Input
                   id="title"
@@ -371,23 +305,14 @@ const RegisterComplaint = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
                   }
-                  placeholder={
-                    language === "te"
-                      ? "సంక్షిప్త శీర్షిక రాయండి"
-                      : language === "hi"
-                        ? "संक्षिप्त शीर्षक लिखें"
-                        : "Write a brief title"
-                  }
+                  placeholder="Write a brief title"
                   required
                 />
               </div>
 
               <div>
                 <Label htmlFor="description">
-                  {language === "te" && "వివరణ"}
-                  {language === "hi" && "विवरण"}
-                  {language === "en" && "Description"}
-                  <span className="text-red-500">*</span>
+                  Description <span className="text-red-500">*</span>
                 </Label>
                 <Textarea
                   id="description"
@@ -395,27 +320,17 @@ const RegisterComplaint = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, description: e.target.value })
                   }
-                  placeholder={
-                    language === "te"
-                      ? "సమస్యను వివరంగా వర్ణించండి"
-                      : language === "hi"
-                        ? "समस्या का विस्तृत वर्णन करें"
-                        : "Describe the issue in detail"
-                  }
+                  placeholder="Describe the issue in detail"
                   rows={4}
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="priority">
-                  {language === "te" && "ప్రాధాన్యత"}
-                  {language === "hi" && "प्राथमिकता"}
-                  {language === "en" && "Priority"}
-                </Label>
+                <Label htmlFor="priority">Priority</Label>
                 <RadioGroup
                   value={formData.priority}
-                  onValueChange={(value) =>
+                  onValueChange={(value: "low" | "medium" | "high") =>
                     setFormData({ ...formData, priority: value })
                   }
                   className="flex space-x-4 mt-2"
@@ -427,13 +342,7 @@ const RegisterComplaint = () => {
                       className="flex items-center space-x-1"
                     >
                       <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                      <span>
-                        {language === "te"
-                          ? "తక్కువ"
-                          : language === "hi"
-                            ? "कम"
-                            : "Low"}
-                      </span>
+                      <span>Low</span>
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -443,13 +352,7 @@ const RegisterComplaint = () => {
                       className="flex items-center space-x-1"
                     >
                       <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                      <span>
-                        {language === "te"
-                          ? "మధ్యమ"
-                          : language === "hi"
-                            ? "मध्यम"
-                            : "Medium"}
-                      </span>
+                      <span>Medium</span>
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -459,13 +362,7 @@ const RegisterComplaint = () => {
                       className="flex items-center space-x-1"
                     >
                       <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-                      <span>
-                        {language === "te"
-                          ? "అధిక"
-                          : language === "hi"
-                            ? "उच्च"
-                            : "High"}
-                      </span>
+                      <span>High</span>
                     </Label>
                   </div>
                 </RadioGroup>
@@ -478,9 +375,7 @@ const RegisterComplaint = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MapPin className="w-5 h-5" />
-                {language === "te" && "స్థానం"}
-                {language === "hi" && "स्थान"}
-                {language === "en" && "Location"}
+                Location
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -490,13 +385,7 @@ const RegisterComplaint = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, location: e.target.value })
                   }
-                  placeholder={
-                    language === "te"
-                      ? "చిరునామా లేదా అక్షాంశం, రేఖాంశం"
-                      : language === "hi"
-                        ? "पता या अक्षांश, देशांतर"
-                        : "Address or latitude, longitude"
-                  }
+                  placeholder="Address or latitude, longitude"
                   className="flex-1"
                 />
                 <Button
@@ -505,33 +394,19 @@ const RegisterComplaint = () => {
                   onClick={getCurrentLocation}
                 >
                   <MapPin className="w-4 h-4 mr-2" />
-                  {language === "te"
-                    ? "నా స్థానం"
-                    : language === "hi"
-                      ? "मेरा स्थान"
-                      : "My Location"}
+                  My Location
                 </Button>
               </div>
 
               <div>
-                <Label htmlFor="landmark">
-                  {language === "te" && "సమీప ల్యాండ్‌మార్క్"}
-                  {language === "hi" && "निकटतम लैंडमार्क"}
-                  {language === "en" && "Nearby Landmark"}
-                </Label>
+                <Label htmlFor="landmark">Nearby Landmark</Label>
                 <Input
                   id="landmark"
                   value={formData.landmark}
                   onChange={(e) =>
                     setFormData({ ...formData, landmark: e.target.value })
                   }
-                  placeholder={
-                    language === "te"
-                      ? "సమీప దుకాణం, పార్క్ లేదా ప్రసిద్ధ ప్రదేశం"
-                      : language === "hi"
-                        ? "निकटतम दुकान, पार्क या प्रसिद्ध स्थान"
-                        : "Nearby shop, park or famous place"
-                  }
+                  placeholder="Nearby shop, park or famous place"
                 />
               </div>
             </CardContent>
@@ -542,17 +417,10 @@ const RegisterComplaint = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Camera className="w-5 h-5" />
-                {language === "te" && "చిత్రాలు"}
-                {language === "hi" && "तस्वीरें"}
-                {language === "en" && "Photos"}
+                Photos
               </CardTitle>
               <CardDescription>
-                {language === "te" &&
-                  "సమస్యకు సంబంధించిన చిత్రాలను అప్‌లోడ్ చేయండి (గరిష్ఠంగా 5)"}
-                {language === "hi" &&
-                  "समस्या से संबंधित तस्वीरें अपलोड करें (अधिकतम 5)"}
-                {language === "en" &&
-                  "Upload photos related to the issue (max 5)"}
+                Upload photos related to the issue (max 5)
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -569,12 +437,7 @@ const RegisterComplaint = () => {
                   <label htmlFor="image-upload" className="cursor-pointer">
                     <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-sm text-gray-600">
-                      {language === "te" &&
-                        "క్లిక్ చేసి చిత్రాలను ఎంచుకోండి లేదా ఇక్కడ డ్రాగ్ చేయండి"}
-                      {language === "hi" &&
-                        "तस्वीरें चुनने के लिए क्लिक करें या यहाँ ड्रैग करें"}
-                      {language === "en" &&
-                        "Click to select photos or drag them here"}
+                      Click to select photos or drag them here
                     </p>
                   </label>
                 </div>
@@ -610,19 +473,14 @@ const RegisterComplaint = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="w-5 h-5" />
-                {language === "te" && "సంప్రదింపు వివరాలు"}
-                {language === "hi" && "संपर्क विवरण"}
-                {language === "en" && "Contact Details"}
+                Contact Details
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="name">
-                    {language === "te" && "పూర్తి పేరు"}
-                    {language === "hi" && "पूरा नाम"}
-                    {language === "en" && "Full Name"}
-                    <span className="text-red-500">*</span>
+                    Full Name <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="name"
@@ -636,10 +494,7 @@ const RegisterComplaint = () => {
 
                 <div>
                   <Label htmlFor="phone">
-                    {language === "te" && "ఫోన్ నంబర్"}
-                    {language === "hi" && "फोन नंबर"}
-                    {language === "en" && "Phone Number"}
-                    <span className="text-red-500">*</span>
+                    Phone Number <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="phone"
@@ -654,11 +509,7 @@ const RegisterComplaint = () => {
               </div>
 
               <div>
-                <Label htmlFor="email">
-                  {language === "te" && "ఇమెయిల్ చిరునామా"}
-                  {language === "hi" && "ईमेल पता"}
-                  {language === "en" && "Email Address"}
-                </Label>
+                <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
@@ -674,17 +525,11 @@ const RegisterComplaint = () => {
                   <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
                   <div className="flex-1">
                     <h4 className="font-medium text-yellow-800">
-                      {language === "te" && "గోప్యతా నోటీస్"}
-                      {language === "hi" && "गोपनीयता सूचना"}
-                      {language === "en" && "Privacy Notice"}
+                      Privacy Notice
                     </h4>
                     <p className="text-sm text-yellow-700 mt-1">
-                      {language === "te" &&
-                        "మీ వ్యక్తిగత వివరాలు సురక్షితంగా ఉంచబడతాయి మరియు అప్‌డేట్‌ల కోసం మాత్రమే ఉపయోగించబడతాయి."}
-                      {language === "hi" &&
-                        "आपकी व्यक्तिगत जानकारी सुरक्षित रखी जाएगी और केवल अपडेट के लिए उपयोग की जाएगी।"}
-                      {language === "en" &&
-                        "Your personal information will be kept secure and used only for updates."}
+                      Your personal information will be kept secure and used
+                      only for updates.
                     </p>
                   </div>
                 </div>
@@ -698,29 +543,86 @@ const RegisterComplaint = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2 text-sm text-gray-600">
                   <CheckCircle2 className="w-4 h-4 text-green-600" />
-                  <span>
-                    {language === "te" &&
-                      "ఫిర్యాదు ID స్వయంచాలకంగా జనరేట్ చేయబడుతుంది"}
-                    {language === "hi" &&
-                      "शिकायत ID स्वचालित रूप से जेनरेट होगी"}
-                    {language === "en" && "Complaint ID will be auto-generated"}
-                  </span>
+                  <span>Complaint ID will be auto-generated</span>
                 </div>
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-civic-600 hover:bg-civic-700"
+                  className="bg-blue-600 hover:bg-blue-700"
+                  disabled={isSubmitting}
                 >
                   <FileText className="w-5 h-5 mr-2" />
-                  {language === "te" && "ఫిర్యాదు సబ్మిట్ చేయండి"}
-                  {language === "hi" && "शिकायत जमा करें"}
-                  {language === "en" && "Submit Complaint"}
+                  {isSubmitting ? "Submitting..." : "Submit Complaint"}
                 </Button>
               </div>
             </CardContent>
           </Card>
         </form>
       </div>
+
+      {/* Success Dialog */}
+      <Dialog open={showSuccessDialog} onOpenChange={handleDialogClose}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-green-600">
+              <CheckCircle2 className="w-6 h-6" />
+              Complaint Registered Successfully!
+            </DialogTitle>
+            <DialogDescription>
+              Your complaint has been registered and assigned a tracking ID.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="bg-gray-50 rounded-lg p-4">
+              <Label className="text-sm font-medium text-gray-700">
+                Your Complaint ID
+              </Label>
+              <div className="flex items-center justify-between mt-2">
+                <span className="font-mono text-lg font-bold text-blue-600">
+                  {complaintId}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={copyComplaintId}
+                  className="ml-2"
+                >
+                  <Copy className="w-4 h-4 mr-1" />
+                  Copy
+                </Button>
+              </div>
+            </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-start space-x-3">
+                <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5" />
+                <div className="flex-1">
+                  <h4 className="font-medium text-blue-800">Important Notes</h4>
+                  <ul className="text-sm text-blue-700 mt-1 space-y-1">
+                    <li>• Save this ID to track your complaint status</li>
+                    <li>• You will receive SMS/Email updates</li>
+                    <li>• Expected resolution within 3-5 working days</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="flex space-x-3">
+              <Button
+                onClick={() => navigate("/track-complaint")}
+                className="flex-1"
+              >
+                Track Complaint
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => navigate("/")}
+                className="flex-1"
+              >
+                Go Home
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
