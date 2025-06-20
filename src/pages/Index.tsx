@@ -46,6 +46,8 @@ import {
   Lock,
   UserCheck,
   Headphones,
+  Bell,
+  LogIn,
 } from "lucide-react";
 
 const Index = () => {
